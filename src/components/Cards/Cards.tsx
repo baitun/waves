@@ -8,10 +8,10 @@ type Props = { items: Item[] };
 export const Cards: React.FC<Props> = ({ items }) => {
   return (
     <div className={style.cards}>
+      <CardAdd />
       {items.map((item) => (
         <Card key={item.id} item={item} />
       ))}
-      <CardAdd />
     </div>
   );
 };

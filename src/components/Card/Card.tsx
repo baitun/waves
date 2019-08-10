@@ -13,7 +13,7 @@ export const Card: React.FC<Props> = ({ item }) => {
       <img src={item.imageUrl} alt={item.name} />
       <Typography.Title level={4}>{item.name}</Typography.Title>
       <div className={style.timeLeft}>
-        <Icon type="clock-circle" /> {moment().to(item.endDate)}
+        <Icon type="clock-circle" /> Ends {moment().to(item.endDate)}
       </div>
       <div className={style.price}>
         <Icon type="money-collect" /> {item.price.toFixed(2)} Waves
