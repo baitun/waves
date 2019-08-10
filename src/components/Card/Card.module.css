@@ -27,3 +27,8 @@
 .card > img {
   width: 100%;
 }
+
+.card > .attributes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+}
