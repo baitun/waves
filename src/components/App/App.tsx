@@ -1,19 +1,23 @@
+import { HookRouter, useRoutes } from 'hookrouter';
 import React from 'react';
-import { Cards } from '../Cards/Cards';
 import { MOCK_ITEMS } from '../../mocks';
-import { Layout } from 'antd';
-import Header from '../Header/Header';
+import { Cards } from '../Cards/Cards';
+import Page from '../Page/Page';
 
-const App: React.FC = () => {
-  return (
-    <Layout>
-      <Header />
-      <Layout.Content>
-        <Cards items={MOCK_ITEMS} />
-      </Layout.Content>
-      <Layout.Footer></Layout.Footer>
-    </Layout>
-  );
+const routes: HookRouter.RouteObject = {
+  '/': () => (
+    <Page>
+      <Cards items={MOCK_ITEMS} />
+    </Page>
+  ),
+  '/new': () => <Page>Create</Page>,
+  '/bid/:id': ({ id }) => <Page>{id}</Page>,
+};
+
+export const App = () => {
+  const routeResult = useRoutes(routes);
+
+  return routeResult || <>404. Page not found</>;
 };
 
 export default App;

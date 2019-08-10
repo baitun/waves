@@ -1,8 +1,8 @@
 import React from 'react';
-import { Card } from '../Card/Card';
-import style from './Cards.module.css';
 import { Item } from '../../types';
+import { Card } from '../Card/Card';
 import { CardAdd } from '../Card/CardAdd';
+import style from './Cards.module.css';
 
 type Props = { items: Item[] };
 export const Cards: React.FC<Props> = ({ items }) => {
@@ -10,7 +10,7 @@ export const Cards: React.FC<Props> = ({ items }) => {
     <div className={style.cards}>
       <CardAdd />
       {items.map((item) => (
-        <Card key={item.id} item={item} />
+        <Card key={item.uuid} item={item} />
       ))}
     </div>
   );
