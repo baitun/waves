@@ -1,11 +1,18 @@
 import React from 'react';
-import Button from 'antd/es/button';
+import { Cards } from '../Cards/Cards';
+import { MOCK_ITEMS } from '../../mocks';
+import { Layout } from 'antd';
+import Header from '../Header/Header';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <Button type="primary">Button</Button>
-    </div>
+    <Layout>
+      <Header />
+      <Layout.Content>
+        <Cards items={MOCK_ITEMS} />
+      </Layout.Content>
+      <Layout.Footer></Layout.Footer>
+    </Layout>
   );
 };
 
