@@ -4,6 +4,7 @@ import moment from 'moment';
 import React from 'react';
 import { Item } from '../../types';
 import style from './Card.module.css';
+import { Attributes } from './Attributes';
 
 type Props = {
   item: Item;
@@ -14,20 +15,7 @@ export const Card: React.FC<Props> = ({ item }) => {
     <div className={style.card} onClick={handleClick}>
       <img src={item.thumbnail} alt={item.name} />
       <Typography.Title level={4}>{item.name}</Typography.Title>
-      <div className={style.attributes}>
-        <div>
-          <Icon type="user" /> {item.author}
-        </div>
-        <div>
-          <Icon type="clock-circle" /> Ends {moment().to(item.endDate)}
-        </div>
-        <div>
-          <Icon type="money-collect" /> {item.price.toFixed(2)} Waves
-        </div>
-        <div>
-          <Icon type="number" /> {item.bids} bids
-        </div>
-      </div>
+      <Attributes item={item} />
     </div>
   );
 };

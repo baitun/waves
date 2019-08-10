@@ -28,7 +28,7 @@
   width: 100%;
 }
 
-.card > .attributes {
+.attributes {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
 }
