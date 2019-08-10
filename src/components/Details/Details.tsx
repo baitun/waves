@@ -1,18 +1,24 @@
 import { Icon, Typography } from 'antd';
-import { navigate } from 'hookrouter';
+import style from './Details.module.css';
 import moment from 'moment';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { MOCK_ITEMS } from '../../mocks';
 import { Item } from '../../types';
-import style from './Card.module.css';
+console.log(style);
 
 type Props = {
-  item: Item;
+  uuid: string;
 };
-export const Card: React.FC<Props> = ({ item }) => {
-  const handleClick = () => navigate(`/bid/${item.uuid}`);
+export const Details: React.FC<Props> = ({ uuid }) => {
+  const [item, setItem] = useState<Item | undefined>(undefined);
+  useEffect(() => {
+    setItem(MOCK_ITEMS.find((item) => item.uuid === uuid) || MOCK_ITEMS[0]);
+  }, [uuid]);
+
+  if (item === undefined) return <>Not found</>;
   return (
-    <div className={style.card} onClick={handleClick}>
-      <img src={item.thumbnail} alt={item.name} />
+    <div className={style.details}>
+      <img src={item.image} alt={item.name} />
       <Typography.Title level={4}>{item.name}</Typography.Title>
       <div className={style.timeLeft}>
         <Icon type="clock-circle" /> Ends {moment().to(item.endDate)}

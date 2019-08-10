@@ -4,7 +4,7 @@ import Header from '../Header/Header';
 
 const Page: React.FC = ({ children }) => {
   return (
-    <Layout>
+    <Layout className="layout">
       <Header />
       <Layout.Content>{children}</Layout.Content>
       <Layout.Footer></Layout.Footer>

@@ -3,6 +3,7 @@ import React from 'react';
 import { MOCK_ITEMS } from '../../mocks';
 import { Cards } from '../Cards/Cards';
 import Page from '../Page/Page';
+import { Details } from '../Details/Details';
 
 const routes: HookRouter.RouteObject = {
   '/': () => (
@@ -11,7 +12,11 @@ const routes: HookRouter.RouteObject = {
     </Page>
   ),
   '/new': () => <Page>Create</Page>,
-  '/bid/:id': ({ id }) => <Page>{id}</Page>,
+  '/bid/:id': ({ id }) => (
+    <Page>
+      <Details uuid={id} />
+    </Page>
+  ),
 };
 
 export const App = () => {

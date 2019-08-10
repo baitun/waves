@@ -1,7 +1,8 @@
 export type Item = {
   uuid: string;
   name: string;
-  imageUrl: string;
+  thumbnail: string;
+  image: string;
   bids: number;
   price: number;
   endDate: number;
