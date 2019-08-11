@@ -12,5 +12,6 @@ export const MOCK_ITEMS: Item[] = Array.from({ length: 5 }).map(() => {
     bids: faker.random.number(100),
     price: faker.random.number(1000),
     endDate: faker.date.future().valueOf(),
+    description: faker.lorem.paragraph(3),
   };
 });

@@ -7,4 +7,5 @@ export type Item = {
   bids: number;
   price: number;
   endDate: number;
+  description: string;
 };

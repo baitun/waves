@@ -27,6 +27,7 @@ export const Details: React.FC<Props> = ({ uuid }) => {
       <Typography.Title level={1}>{item.name}</Typography.Title>
       <img src={item.image} alt={item.name} />
       <Attributes item={item} />
+      <p>{item.description}</p>
       <InputNumber
         value={bidAmount}
         min={0}
