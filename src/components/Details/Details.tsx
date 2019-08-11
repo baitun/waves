@@ -1,11 +1,9 @@
-import { Icon, Typography, Button, InputNumber } from 'antd';
-import style from './Details.module.css';
-import moment from 'moment';
+import { Button, InputNumber, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { MOCK_ITEMS } from '../../mocks';
 import { Item } from '../../types';
 import { Attributes } from '../Card/Attributes';
-console.log(style);
+import style from './Details.module.css';
 
 type Props = {
   uuid: string;
@@ -35,7 +33,7 @@ export const Details: React.FC<Props> = ({ uuid }) => {
         parser={(value) => (value ? parseFloat(value) * 100 : 0)}
         onChange={(value) => value && setBidAmount(value)}
       />{' '}
-      <Button>Bid</Button>
+      <Button type="primary">Bid</Button>
     </div>
   );
 };

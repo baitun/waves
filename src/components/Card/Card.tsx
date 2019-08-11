@@ -1,10 +1,9 @@
-import { Icon, Typography } from 'antd';
+import { Typography } from 'antd';
 import { navigate } from 'hookrouter';
-import moment from 'moment';
 import React from 'react';
 import { Item } from '../../types';
-import style from './Card.module.css';
 import { Attributes } from './Attributes';
+import style from './Card.module.css';
 
 type Props = {
   item: Item;
