@@ -7,7 +7,21 @@ type ResponseItem = {
   key: string;
 };
 
-export type AuctionDetails = { [key: string]: string };
+type Keys =
+  | 'closing_start'
+  | 'deposit'
+  | 'lot_amount'
+  | 'lot_assetId'
+  | 'organizer'
+  | 'priceAssetId'
+  | 'reveal_start'
+  | 'second_price'
+  | 'settle'
+  | 'startPrice'
+  | 'top_price'
+  | 'unrevealed_count';
+
+export type AuctionDetails = { [key in Keys]?: string };
 
 function fetchWrapper(url: string): Promise<ResponseItem[]> {
   return fetch(url).then((response) => response.json());
