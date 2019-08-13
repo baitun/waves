@@ -5,10 +5,13 @@ import { IWavesKeeperOptions } from './keeper';
 declare const WavesKeeper: { initialPromise: Promise<IWavesKeeperOptions> };
 
 export function tmpKeeperInit() {
+  if (typeof WavesKeeper === 'undefined') {
+    alert('Keeper is not installed!');
+    throw new Error('Keeper is not installed!');
+  }
+
   return WavesKeeper.initialPromise.then((keeperApi: IWavesKeeperOptions) => {
-    /*...init app*/
     return keeperApi.publicState().then((state) => {
-      console.log({ state });
       return state;
     });
   });
