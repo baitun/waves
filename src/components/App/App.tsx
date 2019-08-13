@@ -1,16 +1,18 @@
 import { Spin } from 'antd';
-import { HookRouter, useRoutes } from 'hookrouter';
+import { HookRouter, useRedirect, useRoutes } from 'hookrouter';
 import React, { useEffect, useState } from 'react';
 import { MOCK_ITEMS } from '../../mocks';
+import { AuctionDetails, getAuctions } from '../../utils/api';
 import { IPublicState } from '../../utils/keeper';
 import { tmpKeeperInit } from '../../utils/tmpSimpleKeeper';
 import { Cards } from '../Cards/Cards';
 import Create2 from '../Create/Create';
 import { Details } from '../Details/Details';
 import Page from '../Page/Page';
-import { getAuctions, AuctionDetails } from '../../utils/api';
 
 export const App = () => {
+  useRedirect('/', '/waves');
+  useRedirect('/waves/', '/waves');
   const [state, setState] = useState<IPublicState>();
   const [auctions, setAuctions] = useState<AuctionDetails[]>();
   useEffect(() => {
@@ -30,9 +32,9 @@ export const App = () => {
   }, [state]);
 
   const routes: HookRouter.RouteObject = {
-    '/': () => <Cards items={MOCK_ITEMS} />,
-    '/create': () => <Create2 />,
-    '/bid/:id': ({ id }) => <Details uuid={id} />,
+    '/waves': () => <Cards items={MOCK_ITEMS} />,
+    '/waves/create': () => <Create2 />,
+    '/waves/bid/:id': ({ id }) => <Details uuid={id} />,
   };
 
   const routeResult = useRoutes(routes);

@@ -2,7 +2,7 @@
   "name": "waves",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "https://baitun.github.io/waves/",
   "dependencies": {
     "@types/faker": "4.1.5",
     "@types/hookrouter": "2.2.1",

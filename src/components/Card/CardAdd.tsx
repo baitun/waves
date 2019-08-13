@@ -8,7 +8,7 @@ export const CardAdd: React.FC<Props> = () => {
   return (
     <div
       className={`${style.card} ${style.add}`}
-      onClick={() => navigate('/create')}
+      onClick={() => navigate('/waves/create')}
       title="Create a new lot"
     >
       <Icon className={style.add} type="plus" />

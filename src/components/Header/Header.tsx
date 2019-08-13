@@ -9,7 +9,7 @@ export type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = ({ state }) => {
-  const [key, setKey] = useState('/');
+  const [key, setKey] = useState('/waves');
   const handleClick = (param: ClickParam) => {
     setKey(param.key);
     navigate(key);
@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ state }) => {
         style={{ lineHeight: '64px' }}
         onClick={handleClick}
       >
-        <Menu.Item key="/">WAVES BIDS</Menu.Item>
+        <Menu.Item key="/waves">WAVES BIDS</Menu.Item>
         <Menu.SubMenu
           title={
             <span className="submenu-title-wrapper">

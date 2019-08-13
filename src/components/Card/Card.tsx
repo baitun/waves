@@ -9,7 +9,7 @@ export type CardProps = {
   item: Item;
 };
 export const Card: React.FC<CardProps> = ({ item }) => {
-  const handleClick = () => navigate(`/bid/${item.uuid}`);
+  const handleClick = () => navigate(`/waves/bid/${item.uuid}`);
   return (
     <div className={style.card} onClick={handleClick}>
       <img src={item.thumbnail} alt={item.name} />
