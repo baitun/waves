@@ -1,6 +1,9 @@
+import { Spin } from 'antd';
 import { HookRouter, useRoutes } from 'hookrouter';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MOCK_ITEMS } from '../../mocks';
+import { IPublicState } from '../../utils/keeper';
+import { tmpKeeperInit } from '../../utils/tmpSimpleKeeper';
 import { Cards } from '../Cards/Cards';
 import Create2 from '../Create/Create';
 import { Details } from '../Details/Details';
@@ -13,9 +16,19 @@ const routes: HookRouter.RouteObject = {
 };
 
 export const App = () => {
+  const [state, setState] = useState<IPublicState>();
+  useEffect(() => {
+    // @FIXME
+    tmpKeeperInit().then((state) => {
+      setState(state);
+    });
+  }, []);
+
   const routeResult = useRoutes(routes);
 
-  return <Page>{routeResult || '404. Page not found'}</Page>;
+  if (state === undefined) return <Spin />;
+
+  return <Page state={state}>{routeResult || '404. Page not found'}</Page>;
 };
 
 export default App;

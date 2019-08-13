@@ -1,11 +1,13 @@
-import React from 'react';
 import { Layout } from 'antd';
-import Header from '../Header/Header';
+import React from 'react';
+import Header, { HeaderProps } from '../Header/Header';
 
-const Page: React.FC = ({ children }) => {
+type PageProps = HeaderProps;
+
+const Page: React.FC<PageProps> = ({ children, state }) => {
   return (
     <Layout className="layout">
-      <Header />
+      <Header state={state} />
       <Layout.Content>{children}</Layout.Content>
       <Layout.Footer></Layout.Footer>
     </Layout>

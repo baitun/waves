@@ -1,25 +1,19 @@
 import { Icon, Layout, Menu } from 'antd';
 import { ClickParam } from 'antd/lib/menu';
 import { navigate } from 'hookrouter';
-import React, { useEffect, useState } from 'react';
-import { tmpKeeperInit } from '../../utils/tmpSimpleKeeper';
-import style from './Header.module.css';
+import React, { useState } from 'react';
 import { IPublicState } from '../../utils/keeper';
 
-const Header: React.FC = () => {
+export type HeaderProps = {
+  state: IPublicState;
+};
+
+const Header: React.FC<HeaderProps> = ({ state }) => {
   const [key, setKey] = useState('/');
-  const [state, setState] = useState<IPublicState>();
   const handleClick = (param: ClickParam) => {
     setKey(param.key);
     navigate(key);
   };
-
-  useEffect(() => {
-    // @FIXME
-    tmpKeeperInit().then((state) => {
-      setState(state);
-    });
-  }, []);
 
   return (
     <Layout.Header>
