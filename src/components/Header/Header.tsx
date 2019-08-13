@@ -1,15 +1,26 @@
-import { Layout, Menu, Icon } from 'antd';
+import { Icon, Layout, Menu } from 'antd';
 import { ClickParam } from 'antd/lib/menu';
 import { navigate } from 'hookrouter';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { tmpKeeperInit } from '../../utils/tmpSimpleKeeper';
 import style from './Header.module.css';
+import { IPublicState } from '../../utils/keeper';
 
 const Header: React.FC = () => {
   const [key, setKey] = useState('/');
+  const [state, setState] = useState<IPublicState>();
   const handleClick = (param: ClickParam) => {
     setKey(param.key);
     navigate(key);
   };
+
+  useEffect(() => {
+    // @FIXME
+    tmpKeeperInit().then((state) => {
+      setState(state);
+    });
+  }, []);
+
   return (
     <Layout.Header>
       <Menu
@@ -39,7 +50,7 @@ const Header: React.FC = () => {
         </Menu.SubMenu>
       </Menu>
       <div className={style.user}>
-        <Icon type={'login'} />
+        {state && state.account && state.account.address}
       </div>
     </Layout.Header>
   );
