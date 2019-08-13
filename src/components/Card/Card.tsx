@@ -5,10 +5,10 @@ import { Item } from '../../types';
 import { Attributes } from './Attributes';
 import style from './Card.module.css';
 
-type Props = {
+export type CardProps = {
   item: Item;
 };
-export const Card: React.FC<Props> = ({ item }) => {
+export const Card: React.FC<CardProps> = ({ item }) => {
   const handleClick = () => navigate(`/bid/${item.uuid}`);
   return (
     <div className={style.card} onClick={handleClick}>
