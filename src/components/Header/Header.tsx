@@ -35,9 +35,11 @@ const Header: React.FC = () => {
           title={
             <span className="submenu-title-wrapper">
               <Icon type="user" />
-              Name
+              {(state && state.account && state.account.address) ||
+                'NOT AUTHORIZED'}
             </span>
           }
+          style={{ float: 'right' }}
         >
           <Menu.ItemGroup title="Item 1">
             <Menu.Item key="setting:1">Option 1</Menu.Item>
@@ -49,9 +51,6 @@ const Header: React.FC = () => {
           </Menu.ItemGroup>
         </Menu.SubMenu>
       </Menu>
-      <div className={style.user}>
-        {state && state.account && state.account.address}
-      </div>
     </Layout.Header>
   );
 };
