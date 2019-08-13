@@ -11,16 +11,16 @@ export const Attributes: React.FC<Props> = ({ item }) => {
   return (
     <div className={style.attributes}>
       <div>
-        <Icon type="user" /> {item.author}
+        <Icon type="user" /> {item.organizer}
       </div>
       <div>
-        <Icon type="clock-circle" /> Ends {moment().to(item.endDate)}
+        <Icon type="clock-circle" /> Ends {moment().to(0)}
       </div>
       <div>
-        <Icon type="money-collect" /> {item.price.toFixed(2)} Waves
+        <Icon type="money-collect" /> {item.startPrice} Waves
       </div>
       <div>
-        <Icon type="number" /> {item.bids} bids
+        <Icon type="number" /> {item.unrevealed_count} bids
       </div>
     </div>
   );

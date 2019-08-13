@@ -11,7 +11,7 @@ export const Cards: React.FC<CardsProps> = ({ items }) => {
     <div className={style.cards}>
       <CardAdd />
       {items.map((item) => (
-        <Card key={item.uuid} item={item} />
+        <Card key={item.id} item={item} />
       ))}
     </div>
   );

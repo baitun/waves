@@ -1,11 +1,3 @@
-export type Item = {
-  uuid: string;
-  name: string;
-  author: string;
-  thumbnail: string;
-  image: string;
-  bids: number;
-  price: number;
-  endDate: number;
-  description: string;
-};
+import { AuctionDetails } from './utils/api';
+
+export type Item = AuctionDetails;

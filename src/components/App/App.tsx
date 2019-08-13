@@ -1,7 +1,6 @@
 import { Spin } from 'antd';
 import { HookRouter, useRedirect, useRoutes } from 'hookrouter';
 import React, { useEffect, useState } from 'react';
-import { MOCK_ITEMS } from '../../mocks';
 import { AuctionDetails, getAuctions } from '../../utils/api';
 import { IPublicState } from '../../utils/keeper';
 import { tmpKeeperInit } from '../../utils/tmpSimpleKeeper';
@@ -32,9 +31,9 @@ export const App = () => {
   }, [state]);
 
   const routes: HookRouter.RouteObject = {
-    '/waves': () => <Cards items={MOCK_ITEMS} />,
+    '/waves': () => <Cards items={auctions || []} />,
     '/waves/create': () => <Create2 />,
-    '/waves/bid/:id': ({ id }) => <Details uuid={id} />,
+    '/waves/bid/:id': ({ id }) => <Details id={id} items={auctions || []} />,
   };
 
   const routeResult = useRoutes(routes);

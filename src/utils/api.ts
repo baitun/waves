@@ -8,6 +8,8 @@ type ResponseItem = {
 };
 
 export type AuctionDetails = {
+  id: string;
+
   closing_start?: string;
   deposit?: string;
   lot_amount?: string;
@@ -39,7 +41,9 @@ export async function getAuctionIds(organizer: string): Promise<string[]> {
 
 export async function getAuctionDetails(auctionId: string) {
   const res = await fetchWrapper(getUrl(auctionId + '_.*'));
-  let auctionDetails: AuctionDetails = {};
+  let auctionDetails: AuctionDetails = {
+    id: res[0].key.split('_')[0],
+  };
   for (let i = 0; i < res.length; i++) {
     const key = res[i].key.substr(res[i].key.indexOf('_') + 1);
     const val = res[i].value;

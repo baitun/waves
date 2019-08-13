@@ -9,11 +9,13 @@ export type CardProps = {
   item: Item;
 };
 export const Card: React.FC<CardProps> = ({ item }) => {
-  const handleClick = () => navigate(`/waves/bid/${item.uuid}`);
+  const handleClick = () => navigate(`/waves/bid/${item.id}`);
+  const image =
+    `https://placekitten.com/400/200?image=` + (parseInt(item.id) % 15);
   return (
     <div className={style.card} onClick={handleClick}>
-      <img src={item.thumbnail} alt={item.name} />
-      <Typography.Title level={4}>{item.name}</Typography.Title>
+      <img src={image} alt={''} />
+      <Typography.Title level={4}>{item.id}</Typography.Title>
       <Attributes item={item} />
     </div>
   );
