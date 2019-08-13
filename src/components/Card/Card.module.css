@@ -28,7 +28,18 @@
   width: 100%;
 }
 
+.card .title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .attributes {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+}
+.attributes > * {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

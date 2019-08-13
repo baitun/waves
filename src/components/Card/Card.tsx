@@ -15,7 +15,9 @@ export const Card: React.FC<CardProps> = ({ item }) => {
   return (
     <div className={style.card} onClick={handleClick}>
       <img src={image} alt={''} />
-      <Typography.Title level={4}>{item.id}</Typography.Title>
+      <Typography.Title className={style.title} level={4}>
+        {item.id}
+      </Typography.Title>
       <Attributes item={item} />
     </div>
   );

@@ -8,6 +8,12 @@
   padding: 20px;
 }
 
+.details .title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .details > img {
   width: 100%;
 }
