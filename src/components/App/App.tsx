@@ -21,18 +21,21 @@ export const App = () => {
         setState(state);
       })
       .catch((error) => {
-        notification.error({ message: error });
+        notification.error({
+          message: error,
+          description:
+            'You need to install and configure Waves Keeper chrome extension in order to use this site!',
+        });
       });
   }, []);
 
   useEffect(() => {
-    if (state === undefined) return;
     // const organizer = state.account!.address;
     const organizer = '3MvxXxJcuELB2UaCHKVQaUszu8u3NmXxoWr';
     getAuctions(organizer).then((auctions) => {
       setAuctions(auctions);
     });
-  }, [state]);
+  }, []);
 
   const routes: HookRouter.RouteObject = {
     '/waves': () => <Cards items={auctions || []} />,
@@ -41,8 +44,6 @@ export const App = () => {
   };
 
   const routeResult = useRoutes(routes);
-
-  if (state === undefined) return <Spin />;
 
   return <Page state={state}>{routeResult || '404. Page not found'}</Page>;
 };

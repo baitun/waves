@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { IPublicState } from '../../utils/keeper';
 
 export type HeaderProps = {
-  state: IPublicState;
+  state?: IPublicState;
 };
 
 const Header: React.FC<HeaderProps> = ({ state }) => {
