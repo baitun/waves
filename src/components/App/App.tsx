@@ -1,4 +1,4 @@
-import { Spin } from 'antd';
+import { notification, Spin } from 'antd';
 import { HookRouter, useRedirect, useRoutes } from 'hookrouter';
 import React, { useEffect, useState } from 'react';
 import { AuctionDetails, getAuctions } from '../../utils/api';
@@ -16,9 +16,13 @@ export const App = () => {
   const [auctions, setAuctions] = useState<AuctionDetails[]>();
   useEffect(() => {
     // @FIXME
-    tmpKeeperInit().then((state) => {
-      setState(state);
-    });
+    tmpKeeperInit()
+      .then((state) => {
+        setState(state);
+      })
+      .catch((error) => {
+        notification.error({ message: error });
+      });
   }, []);
 
   useEffect(() => {
