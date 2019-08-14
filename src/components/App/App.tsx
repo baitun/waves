@@ -1,4 +1,4 @@
-import { notification, Spin } from 'antd';
+import { notification } from 'antd';
 import { HookRouter, useRedirect, useRoutes } from 'hookrouter';
 import React, { useEffect, useState } from 'react';
 import { AuctionDetails, getAuctions } from '../../utils/api';
