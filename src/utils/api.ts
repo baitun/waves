@@ -33,9 +33,12 @@ export function getUrl(matches: string): string {
   return ENDPOINT + matches;
 }
 
-export async function getAuctionIds(organizer: string): Promise<string[]> {
-  const res = await fetchWrapper(getUrl(organizer + '_organizer.*'));
-  const auctionIds = res[0].value.trim().split(' ');
+export async function getAuctionIds(organizer = '.*'): Promise<string[]> {
+  const res = await fetchWrapper(getUrl(organizer + '_organizer'));
+  let auctionIds: string[] = [];
+  for (let i = 0; i < res.length; i++) {
+    auctionIds.push(...res[i].value.trim().split(' '));
+  }
   return auctionIds;
 }
 
@@ -52,7 +55,7 @@ export async function getAuctionDetails(auctionId: string) {
   return auctionDetails;
 }
 
-export async function getAuctions(organizer: string) {
+export async function getAuctions(organizer?: string) {
   const auctionIds = await getAuctionIds(organizer);
   const promises = auctionIds.map((id) => getAuctionDetails(id));
   const auctions = await Promise.all(promises);
