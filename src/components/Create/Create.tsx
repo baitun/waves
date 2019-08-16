@@ -10,6 +10,7 @@ import {
 } from 'antd';
 import React from 'react';
 import { FormComponentProps } from 'antd/lib/form';
+import { Section } from '../Section/Section';
 
 const { Option } = Select;
 
@@ -38,16 +39,7 @@ class Create extends React.Component<FormComponentProps> {
       wrapperCol: { span: 14 },
     };
     return (
-      <div
-        style={{
-          backgroundColor: '#fff',
-          width: '90%',
-          maxWidth: 800,
-          margin: 'auto',
-          padding: 20,
-          marginTop: 20,
-        }}
-      >
+      <Section>
         <Typography.Title>Create new auction</Typography.Title>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
           <Form.Item label="Name">
@@ -94,7 +86,7 @@ class Create extends React.Component<FormComponentProps> {
             </Button>
           </Form.Item>
         </Form>
-      </div>
+      </Section>
     );
   }
 }

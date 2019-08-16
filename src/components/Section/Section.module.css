@@ -1,4 +1,4 @@
-.details {
+.section {
   width: 90%;
   max-width: 800px;
   background-color: #fff;
@@ -8,12 +8,12 @@
   padding: 20px;
 }
 
-.details .title {
+.section > img {
+  max-width: 100%;
+}
+
+.section > h1 {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.details > img {
-  width: 100%;
 }

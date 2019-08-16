@@ -2,7 +2,7 @@ import { Button, InputNumber, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Item } from '../../types';
 import { DetailsTable } from '../DetailsTable/DetailsTable';
-import style from './Details.module.css';
+import { Section } from '../Section/Section';
 
 type Props = {
   id: string;
@@ -24,10 +24,8 @@ export const Details: React.FC<Props> = ({ id, items }) => {
     `https://placekitten.com/800/400?image=` + (parseInt(item.id) % 15);
 
   return (
-    <div className={style.details}>
-      <Typography.Title className={style.title} level={1}>
-        {item.id}
-      </Typography.Title>
+    <Section>
+      <Typography.Title level={1}>{item.id}</Typography.Title>
       <img src={image} alt={''} />
       <DetailsTable item={item} />
       <br />
@@ -40,6 +38,6 @@ export const Details: React.FC<Props> = ({ id, items }) => {
         onChange={(value) => value && setBidAmount(value)}
       />{' '}
       <Button type="primary">Bid</Button>
-    </div>
+    </Section>
   );
 };
