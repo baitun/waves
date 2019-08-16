@@ -13,6 +13,7 @@ export interface IPublicState {
     balance: { available: string; leasedOut: string };
     name: string;
     networkCode: string;
+    network: string;
     publicKey: string;
     type: string;
   };

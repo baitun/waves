@@ -29,19 +29,23 @@ const Header: React.FC<HeaderProps> = ({ state }) => {
           title={
             <span className="submenu-title-wrapper">
               <Icon type="user" />
-              {(state && state.account && state.account.address) ||
+              {(state && state.account && state.account.name) ||
                 'NOT AUTHORIZED'}
             </span>
           }
           style={{ float: 'right' }}
         >
-          <Menu.ItemGroup title="Item 1">
-            <Menu.Item key="setting:1">Option 1</Menu.Item>
-            <Menu.Item key="setting:2">Option 2</Menu.Item>
-          </Menu.ItemGroup>
-          <Menu.ItemGroup title="Item 2">
-            <Menu.Item key="setting:3">Option 3</Menu.Item>
-            <Menu.Item key="setting:4">Option 4</Menu.Item>
+          <Menu.Item key="adress">
+            {state && state.account && state.account.address}
+          </Menu.Item>
+          <Menu.ItemGroup title="Info">
+            <Menu.Item key="balance-available">
+              Balance:{' '}
+              {state && state.account && state.account.balance.available} WAVES
+            </Menu.Item>
+            <Menu.Item key="network">
+              Network: {state && state.account && state.account.network}
+            </Menu.Item>
           </Menu.ItemGroup>
         </Menu.SubMenu>
       </Menu>
