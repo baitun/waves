@@ -10,8 +10,7 @@ import { Details } from '../Details/Details';
 import Page from '../Page/Page';
 
 export const App = () => {
-  useRedirect('/', '/waves');
-  useRedirect('/waves/', '/waves');
+  useRedirect('/', '/waves/');
   const [state, setState] = useState<IPublicState>();
   const [auctions, setAuctions] = useState<AuctionDetails[]>();
   useEffect(() => {
@@ -38,7 +37,7 @@ export const App = () => {
   }, []);
 
   const routes: HookRouter.RouteObject = {
-    '/waves': () => <Cards items={auctions || []} />,
+    '/waves/': () => <Cards items={auctions || []} />,
     '/waves/create': () => <Create2 />,
     '/waves/bid/:id': ({ id }) => <Details id={id} items={auctions || []} />,
   };
