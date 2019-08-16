@@ -10,18 +10,35 @@ type ResponseItem = {
 export type AuctionDetails = {
   id: string;
 
-  closing_start?: string;
-  deposit?: string;
   lot_amount?: string;
-  lot_assetId?: string;
+
+  /** base58 адрес устроителя аукциона */
   organizer?: string;
+  /** base58 идентификатор (адрес) NFT токена для продажи */
+  lot_assetId?: string;
+  // lot_asset_id?: string;
+  /** base58 идентификатор (адрес) NFT токена для продажи */
   priceAssetId?: string;
-  reveal_start?: string;
-  second_price?: string;
-  settle?: string;
+  // price_asset_id?: string;
+  /** начальная (минимальная) цена лота */
   startPrice?: string;
+  // start_price?: string;
+  /** наивысшая раскрытая цена */
   top_price?: string;
+  /** вторая раскрытая цена */
+  second_price?: string;
+  /** base58 адрес победителя аукциона */
+  winner?: string;
+  /** номер блока (выста) с которой начинается фаза раскрытия */
+  reveal_start?: string;
+  /** номер блока (выста) с которой начинается фаза окончения */
+  closing_start?: string;
+  /** размер депозита (максимальной ставки) для участия в аукционе */
+  deposit?: string;
+  /** количество не раскрывшихся участников */
   unrevealed_count?: string;
+  /** признак что аукцион завершился (деньги перечислены организатору, а лот участнику) */
+  settle?: string;
 };
 
 function fetchWrapper(url: string): Promise<ResponseItem[]> {
