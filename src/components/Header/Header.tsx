@@ -16,6 +16,9 @@ const Header: React.FC<HeaderProps> = ({ state }) => {
 
   return (
     <Layout.Header>
+      <div style={{ float: 'left', color: 'white', marginRight: 20 }}>
+        WAVES BIDS
+      </div>
       <Menu
         theme="dark"
         mode="horizontal"
@@ -23,8 +26,8 @@ const Header: React.FC<HeaderProps> = ({ state }) => {
         style={{ lineHeight: '64px' }}
         onClick={handleClick}
       >
-        <Menu.Item key="/waves/">WAVES BIDS</Menu.Item>
-        <Menu.Item key="/waves/create">New auction</Menu.Item>
+        <Menu.Item key="/waves/">All lots</Menu.Item>
+        <Menu.Item key="/waves/create">New lot</Menu.Item>
         <Menu.SubMenu
           title={
             <span className="submenu-title-wrapper">

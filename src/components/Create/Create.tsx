@@ -40,7 +40,7 @@ class Create extends React.Component<FormComponentProps> {
     };
     return (
       <Section>
-        <Typography.Title>Create new auction</Typography.Title>
+        <Typography.Title>Create new lot</Typography.Title>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
           <Form.Item label="Name">
             {getFieldDecorator('input-name', {})(<Input />)}
