@@ -38,7 +38,7 @@ export type AuctionDetails = {
   /** количество не раскрывшихся участников */
   unrevealed_count?: string;
   /** признак что аукцион завершился (деньги перечислены организатору, а лот участнику) */
-  settle?: string;
+  settle?: boolean;
 };
 
 function fetchWrapper(url: string): Promise<ResponseItem[]> {
