@@ -35,15 +35,15 @@ const Header: React.FC<HeaderProps> = ({ state }) => {
           }
           style={{ float: 'right' }}
         >
-          <Menu.Item key="adress">
+          <Menu.Item disabled key="adress">
             {state && state.account && state.account.address}
           </Menu.Item>
           <Menu.ItemGroup title="Info">
-            <Menu.Item key="balance-available">
+            <Menu.Item disabled key="balance-available">
               Balance:{' '}
               {state && state.account && state.account.balance.available} WAVES
             </Menu.Item>
-            <Menu.Item key="network">
+            <Menu.Item disabled key="network">
               Network: {state && state.account && state.account.network}
             </Menu.Item>
           </Menu.ItemGroup>
