@@ -1,7 +1,7 @@
 import { Icon, Layout, Menu } from 'antd';
 import { ClickParam } from 'antd/lib/menu';
-import { navigate } from 'hookrouter';
-import React, { useState } from 'react';
+import { navigate, usePath } from 'hookrouter';
+import React from 'react';
 import { IPublicState } from '../../utils/keeper';
 
 export type HeaderProps = {
@@ -9,10 +9,9 @@ export type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = ({ state }) => {
-  const [key, setKey] = useState('/waves/');
+  const path = usePath();
   const handleClick = (param: ClickParam) => {
-    setKey(param.key);
-    navigate(key);
+    navigate(param.key);
   };
 
   return (
@@ -20,11 +19,12 @@ const Header: React.FC<HeaderProps> = ({ state }) => {
       <Menu
         theme="dark"
         mode="horizontal"
-        selectedKeys={[key]}
+        selectedKeys={[path]}
         style={{ lineHeight: '64px' }}
         onClick={handleClick}
       >
         <Menu.Item key="/waves/">WAVES BIDS</Menu.Item>
+        <Menu.Item key="/waves/create">New auction</Menu.Item>
         <Menu.SubMenu
           title={
             <span className="submenu-title-wrapper">
