@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Item } from '../../types';
 import { DetailsTable } from '../DetailsTable/DetailsTable';
 import { Section } from '../Section/Section';
+import { getImage } from '../../utils/getImage';
 
 type Props = {
   id: string;
@@ -20,13 +21,11 @@ export const Details: React.FC<Props> = ({ id, items }) => {
   }, [item]);
 
   if (item === undefined) return <>Not found</>;
-  const image =
-    `https://placekitten.com/800/400?image=` + (parseInt(item.id) % 15);
 
   return (
     <Section>
       <Typography.Title level={1}>{item.id}</Typography.Title>
-      <img src={image} alt={''} />
+      <img src={getImage(item)} alt={''} />
       <DetailsTable item={item} />
       <br />
       <br />
