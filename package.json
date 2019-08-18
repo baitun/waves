@@ -27,6 +27,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "lint": "eslint src/**/*.{js,ts,jsx,tsx}",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "yarn build",
