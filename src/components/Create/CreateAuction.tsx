@@ -2,7 +2,7 @@ import { Button, Form, InputNumber, Select, Typography } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { navigate } from 'hookrouter';
 import React from 'react';
-import { createLot } from '../../utils/api';
+import { startAuction } from '../../utils/api';
 import { withKeeper } from '../../utils/tmpSimpleKeeper';
 import { Section } from '../Section/Section';
 
@@ -17,11 +17,13 @@ class CreateAuctionPL extends React.Component<FormComponentProps> {
         console.log('Received values of form: ', values);
 
         withKeeper(async (api) => {
-          const lotTx = await createLot(
+          const lotTx = await startAuction(
             {
-              name: values['input-name'],
-              imageUrl:
-                'https://images-na.ssl-images-amazon.com/images/I/813XSSh%2BUTL._SY679_.jpg',
+              assetId: '',
+              duration: values['select-lot'],
+              startPrice: values['input-number-start-price'],
+              priceAssetId: 'WAVES',
+              deposit: values['input-number-deposit'],
             },
             api.signAndPublishTransaction
           );
@@ -54,6 +56,7 @@ class CreateAuctionPL extends React.Component<FormComponentProps> {
           <Form.Item label="Lot" hasFeedback>
             {getFieldDecorator('select-lot', {})(
               <Select>
+                <Option value="1">1</Option>
                 {/* put lots here ................................. */}
               </Select>
             )}
