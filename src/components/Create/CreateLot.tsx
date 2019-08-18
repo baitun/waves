@@ -1,21 +1,10 @@
-import {
-  Button,
-  Form,
-  Icon,
-  InputNumber,
-  Select,
-  Upload,
-  Typography,
-  Input,
-} from 'antd';
-import React from 'react';
+import { Button, Form, Icon, Input, Typography, Upload } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import { Section } from '../Section/Section';
-
-import { createLot, awaitTx } from '../../utils/api';
+import React from 'react';
+import { createLot } from '../../utils/api';
+import { IWavesKeeperOptions } from '../../utils/keeper';
 import { withKeeper } from '../../utils/tmpSimpleKeeper';
-
-const { Option } = Select;
+import { Section } from '../Section/Section';
 
 class CreateLotPL extends React.Component<FormComponentProps> {
   handleSubmit = (e) => {
@@ -25,12 +14,12 @@ class CreateLotPL extends React.Component<FormComponentProps> {
       if (!err) {
         console.log('Received values of form: ', values);
 
-        withKeeper(async (api) => {
+        withKeeper(async (api: IWavesKeeperOptions) => {
           const lotTx = await createLot(
             {
               name: values['input-name'],
-              imageUrl:
-                'https://images-na.ssl-images-amazon.com/images/I/813XSSh%2BUTL._SY679_.jpg',
+              imageUrl: values.upload[0].response.url,
+              // 'https://images-na.ssl-images-amazon.com/images/I/813XSSh%2BUTL._SY679_.jpg',
             },
             api.signAndPublishTransaction
           );
