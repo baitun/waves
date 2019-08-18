@@ -52,18 +52,15 @@ export interface IWavesKeeperOptions {
 }
 
 class KeeperHelper {
-  constructor() {}
-
   get keeper(): IWavesKeeperOptions | undefined {
     if (
       typeof WavesKeeper === 'undefined' ||
       !WavesKeeper ||
       !WavesKeeper.publicState
     ) {
-      return;
-    } else {
-      return <IWavesKeeperOptions>WavesKeeper;
+      return undefined;
     }
+    return WavesKeeper;
   }
 
   async init(): Promise<IWavesKeeperOptions | undefined> {
@@ -100,7 +97,7 @@ class KeeperHelper {
     return timer(200).pipe(
       map(() => {
         if (!this.keeper) {
-          throw false;
+          throw new Error('No Keeper');
         }
         return this.keeper;
       }),
