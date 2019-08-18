@@ -62,6 +62,10 @@ class CreateAuctionPL extends React.Component<FormComponentProps> {
             </Button>
           </Form.Item>
 
+          <Form.Item label="Duration">
+            {getFieldDecorator('duration', {})(<InputNumber step={1} />)}
+          </Form.Item>
+
           <Form.Item label="Start price">
             {getFieldDecorator('input-number-start-price', {})(
               <InputNumber step={0.01} />
