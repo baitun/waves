@@ -1,3 +1,5 @@
+import { sha256, base64Encode, stringToBytes } from '@waves/ts-lib-crypto';
+
 // https://nodes-testnet.wavesnodes.com/addresses/data/3MvoQ3q8wFnquWFPSZuBGunTnE1fphumBxd?matches=3MvxXxJcuELB2UaCHKVQaUszu8u3NmXxoWr_organizer.*
 // https://nodes-testnet.wavesnodes.com/addresses/data/3MvoQ3q8wFnquWFPSZuBGunTnE1fphumBxd?matches=TAyRZ8XwQ5HYTkZUrTkMFb4oG43UMkCmB3wT5zdj6nL_.*
 
@@ -54,6 +56,19 @@ export type Auction = {
   startPrice: number;
   priceAssetId?: string;
   deposit: number;
+};
+
+export type Bid = {
+  auctionId: string;
+  hash: string;
+  priceAssetId?: string;
+  deposit: number;
+};
+
+export type HashedBid = {
+  amount: number;
+  salt: string;
+  hashedAmount: string;
 };
 
 export type SignatureCallback = (txData: any) => Promise<any>;
@@ -166,4 +181,66 @@ export async function startAuction(
   };
 
   return sign(tx);
+}
+
+// Performs the following computation from smart contract in Typescript:
+// base64(hash(SALT + bidAmount.toString()))
+//
+export function toHash(amount: number): HashedBid {
+  const bidStr = amount.toString();
+  const salt = randomStr();
+  const strToHash = salt + bidStr;
+  const bytesToHash = stringToBytes(strToHash);
+  const hashBytes = sha256(bytesToHash);
+  const hashedAmount = base64Encode(hashBytes);
+  return {
+    amount,
+    salt,
+    hashedAmount,
+  };
+}
+
+export async function bid(bid: Bid, sign: SignatureCallback): Promise<any> {
+  const tx = {
+    type: 16,
+    data: {
+      fee: {
+        tokens: 0.005 * WAVES,
+        assetId: 'WAVES',
+      },
+      dappAddress: CONTRACT_ADDRESS,
+      call: {
+        function: 'bid',
+        args: [
+          {
+            type: 'string',
+            value: bid.auctionId,
+          },
+          {
+            type: 'string',
+            value: bid.hash,
+          },
+        ],
+      },
+      payment: [
+        {
+          tokens: bid.deposit,
+          assetId: bid.priceAssetId || 'WAVES',
+        },
+      ],
+    },
+  };
+
+  return sign(tx);
+}
+
+function randomStr() {
+  return (
+    Math.random()
+      .toString(36)
+      .substring(2, 15) +
+    Math.random()
+      .toString(36)
+      .substring(2, 15)
+  );
 }
