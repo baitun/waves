@@ -71,6 +71,12 @@ export type HashedBid = {
   hashedAmount: string;
 };
 
+export type Reveal = {
+  auctionId: string;
+  salt: string;
+  amount: number;
+};
+
 export type SignatureCallback = (txData: any) => Promise<any>;
 
 function fetchWrapper(url: string): Promise<ResponseItem[]> {
@@ -228,6 +234,68 @@ export async function bid(bid: Bid, sign: SignatureCallback): Promise<any> {
           assetId: bid.priceAssetId || 'WAVES',
         },
       ],
+    },
+  };
+
+  return sign(tx);
+}
+
+export async function reveal(
+  reveal: Reveal,
+  sign: SignatureCallback
+): Promise<any> {
+  const tx = {
+    type: 16,
+    data: {
+      fee: {
+        tokens: 0.005 * WAVES,
+        assetId: 'WAVES',
+      },
+      dappAddress: CONTRACT_ADDRESS,
+      call: {
+        function: 'reveal',
+        args: [
+          {
+            type: 'string',
+            value: reveal.auctionId,
+          },
+          {
+            type: 'integer',
+            value: reveal.amount,
+          },
+          {
+            type: 'string',
+            value: reveal.salt,
+          },
+        ],
+      },
+    },
+  };
+
+  return sign(tx);
+}
+
+export async function withdraw(
+  auctionId: string,
+  sign: SignatureCallback
+): Promise<any> {
+  const tx = {
+    type: 16,
+    data: {
+      fee: {
+        tokens: 0.005 * WAVES,
+        assetId: 'WAVES',
+      },
+      dappAddress: CONTRACT_ADDRESS,
+      call: {
+        function: 'withdraw',
+        args: [
+          {
+            type: 'string',
+            value: auctionId,
+          },
+        ],
+      },
     },
   };
 
