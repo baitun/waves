@@ -27,8 +27,8 @@ const Header: React.FC<HeaderProps> = ({ state }) => {
         style={{ lineHeight: '64px' }}
         onClick={handleClick}
       >
-        <Menu.Item key="/waves/">All lots</Menu.Item>
-        <Menu.Item key="/waves/create">New lot</Menu.Item>
+        <Menu.Item key="/waves/">All auctions</Menu.Item>
+        <Menu.Item key="/waves/create">New auction</Menu.Item>
         <Menu.SubMenu
           title={
             <span className="submenu-title-wrapper">
