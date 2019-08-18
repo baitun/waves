@@ -92,6 +92,10 @@ function fetchWrapper(url: string): Promise<ResponseItem[]> {
 
 const CONTRACT_ADDRESS = '3MvoQ3q8wFnquWFPSZuBGunTnE1fphumBxd';
 
+export function toShortTokenAmount(amount: string | number) {
+  return (parseInt('' + amount) / WAVES).toString();
+}
+
 export function getUrl(matches: string): string {
   const ENDPOINT = `https://nodes-testnet.wavesnodes.com/addresses/data/${CONTRACT_ADDRESS}?matches=`;
   return ENDPOINT + matches;

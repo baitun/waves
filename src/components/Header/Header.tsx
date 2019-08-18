@@ -3,6 +3,7 @@ import { ClickParam } from 'antd/lib/menu';
 import { navigate, usePath } from 'hookrouter';
 import React from 'react';
 import { IPublicState } from '../../utils/keeper';
+import { toShortTokenAmount } from '../../utils/api';
 
 export type HeaderProps = {
   state?: IPublicState;
@@ -44,7 +45,10 @@ const Header: React.FC<HeaderProps> = ({ state }) => {
           <Menu.ItemGroup title="Info">
             <Menu.Item disabled key="balance-available">
               Balance:{' '}
-              {state && state.account && state.account.balance.available} WAVES
+              {state &&
+                state.account &&
+                toShortTokenAmount(state.account.balance.available)}{' '}
+              WAVES
             </Menu.Item>
             <Menu.Item disabled key="network">
               Network: {state && state.account && state.account.network}
