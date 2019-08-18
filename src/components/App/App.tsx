@@ -40,6 +40,8 @@ export const App = () => {
   const routes: HookRouter.RouteObject = {
     '/waves/': () => <Cards items={auctions || []} />,
     '/waves/auctions': () => <Cards items={auctions || []} />,
+    '/waves/lots': () => <Cards items={auctions || []} />,
+    '/waves/bids': () => <Cards items={auctions || []} />,
     '/waves/create/lot': () => <CreateLot />,
     '/waves/create/auction': () => <CreateAuction />,
     '/waves/bid/:id': ({ id }) => <Details id={id} items={auctions || []} />,
