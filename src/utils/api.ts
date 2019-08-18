@@ -48,6 +48,14 @@ export type Lot = {
   imageUrl: string; // URL Preview на аукцион
 };
 
+export type Auction = {
+  assetId: string;
+  duration: number;
+  startPrice: number;
+  priceAssetId?: string;
+  deposit: number;
+};
+
 export type SignatureCallback = (txData: any) => Promise<any>;
 
 function fetchWrapper(url: string): Promise<ResponseItem[]> {
@@ -106,6 +114,54 @@ export async function createLot(
         tokens: 0.001 * WAVES,
         assetId: 'WAVES',
       },
+    },
+  };
+
+  return sign(tx);
+}
+
+export async function startAuction(
+  auction: Auction,
+  sign: SignatureCallback
+): Promise<any> {
+  if (auction.startPrice >= auction.deposit) {
+    throw new Error('start price should be >= deposit');
+  }
+  const tx = {
+    type: 16,
+    data: {
+      fee: {
+        tokens: 0.005 * WAVES,
+        assetId: 'WAVES',
+      },
+      dappAddress: CONTRACT_ADDRESS,
+      call: {
+        function: 'startAuction',
+        args: [
+          {
+            type: 'integer',
+            value: auction.duration,
+          },
+          {
+            type: 'integer',
+            value: auction.startPrice,
+          },
+          {
+            type: 'string',
+            value: auction.priceAssetId || 'WAVES',
+          },
+          {
+            type: 'integer',
+            value: auction.deposit,
+          },
+        ],
+      },
+      payment: [
+        {
+          tokens: 1,
+          assetId: auction.assetId,
+        },
+      ],
     },
   };
 
