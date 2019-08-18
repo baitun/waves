@@ -20,3 +20,9 @@ export function tmpKeeperInit(): Promise<IPublicState> {
     };
   });
 }
+
+export const withKeeper = (cb: (IWavesKeeperOptions) => any) => {
+  WavesKeeper.initialPromise.then((api) => {
+    cb(api);
+  });
+};

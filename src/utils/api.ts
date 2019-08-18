@@ -77,6 +77,13 @@ export type Reveal = {
   amount: number;
 };
 
+export type TxResponse = {
+  id: string;
+  sender: string;
+  senderPublicKey: string;
+  timestamp: number;
+};
+
 export type SignatureCallback = (txData: any) => Promise<any>;
 
 function fetchWrapper(url: string): Promise<ResponseItem[]> {
@@ -122,7 +129,7 @@ export async function getAuctions(organizer?: string) {
 export async function createLot(
   lot: Lot,
   sign: SignatureCallback
-): Promise<any> {
+): Promise<TxResponse> {
   const tx = {
     type: 3,
     data: {
@@ -132,19 +139,19 @@ export async function createLot(
       precision: 0,
       reissuable: false,
       fee: {
-        tokens: 0.001 * WAVES,
+        tokens: '0.001',
         assetId: 'WAVES',
       },
     },
   };
 
-  return sign(tx);
+  return sign(tx).then(JSON.parse);
 }
 
 export async function startAuction(
   auction: Auction,
   sign: SignatureCallback
-): Promise<any> {
+): Promise<TxResponse> {
   if (auction.startPrice >= auction.deposit) {
     throw new Error('start price should be >= deposit');
   }
@@ -186,7 +193,7 @@ export async function startAuction(
     },
   };
 
-  return sign(tx);
+  return sign(tx).then(JSON.parse);
 }
 
 // Performs the following computation from smart contract in Typescript:
@@ -206,7 +213,10 @@ export function toHash(amount: number): HashedBid {
   };
 }
 
-export async function bid(bid: Bid, sign: SignatureCallback): Promise<any> {
+export async function bid(
+  bid: Bid,
+  sign: SignatureCallback
+): Promise<TxResponse> {
   const tx = {
     type: 16,
     data: {
@@ -237,13 +247,13 @@ export async function bid(bid: Bid, sign: SignatureCallback): Promise<any> {
     },
   };
 
-  return sign(tx);
+  return sign(tx).then(JSON.parse);
 }
 
 export async function reveal(
   reveal: Reveal,
   sign: SignatureCallback
-): Promise<any> {
+): Promise<TxResponse> {
   const tx = {
     type: 16,
     data: {
@@ -272,13 +282,13 @@ export async function reveal(
     },
   };
 
-  return sign(tx);
+  return sign(tx).then(JSON.parse);
 }
 
 export async function withdraw(
   auctionId: string,
   sign: SignatureCallback
-): Promise<any> {
+): Promise<TxResponse> {
   const tx = {
     type: 16,
     data: {
@@ -299,7 +309,7 @@ export async function withdraw(
     },
   };
 
-  return sign(tx);
+  return sign(tx).then(JSON.parse);
 }
 
 function randomStr() {

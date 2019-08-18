@@ -12,14 +12,31 @@ import React from 'react';
 import { FormComponentProps } from 'antd/lib/form';
 import { Section } from '../Section/Section';
 
+import { createLot } from '../../utils/api';
+import { withKeeper } from '../../utils/tmpSimpleKeeper';
+
 const { Option } = Select;
 
 class Create extends React.Component<FormComponentProps> {
   handleSubmit = (e) => {
     e.preventDefault();
+
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+
+        withKeeper(async (api) => {
+          const lotTx = await createLot(
+            {
+              name: values['input-name'],
+              imageUrl:
+                'https://images-na.ssl-images-amazon.com/images/I/813XSSh%2BUTL._SY679_.jpg',
+            },
+            api.signAndPublishTransaction
+          );
+
+          console.info('Created asset: ' + lotTx.id);
+        });
       }
     });
   };
