@@ -28,7 +28,10 @@ const Header: React.FC<HeaderProps> = ({ state }) => {
         onClick={handleClick}
       >
         <Menu.Item key="/waves/">All auctions</Menu.Item>
-        <Menu.Item key="/waves/create/auction">Create auction</Menu.Item>
+        <Menu.SubMenu title="Create">
+          <Menu.Item key="/waves/create/lot">Create lot</Menu.Item>
+          <Menu.Item key="/waves/create/auction">Create auction</Menu.Item>
+        </Menu.SubMenu>
         <Menu.SubMenu
           title={
             <span className="submenu-title-wrapper">
