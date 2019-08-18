@@ -1319,7 +1319,7 @@
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-"@waves/ts-lib-crypto@^1.1.1":
+"@waves/ts-lib-crypto@1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@waves/ts-lib-crypto/-/ts-lib-crypto-1.1.1.tgz#37d400fda210442d397d3509527b5fda8c4364a7"
   integrity sha512-rU4NOa2agwpQmDAomnU2NSbnla3XvEL8PJB4hn8pKWqVxnfcyL4OwxgSUPhLZsV4SQgWasDqBpaLB3mVYf/QRA==
