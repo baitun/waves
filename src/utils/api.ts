@@ -1,6 +1,8 @@
 // https://nodes-testnet.wavesnodes.com/addresses/data/3MvoQ3q8wFnquWFPSZuBGunTnE1fphumBxd?matches=3MvxXxJcuELB2UaCHKVQaUszu8u3NmXxoWr_organizer.*
 // https://nodes-testnet.wavesnodes.com/addresses/data/3MvoQ3q8wFnquWFPSZuBGunTnE1fphumBxd?matches=TAyRZ8XwQ5HYTkZUrTkMFb4oG43UMkCmB3wT5zdj6nL_.*
 
+const WAVES = 10 ** 8;
+
 type ResponseItem = {
   type: string;
   value: string;
@@ -41,12 +43,21 @@ export type AuctionDetails = {
   settle?: boolean;
 };
 
+export type Lot = {
+  name: string; // Token name
+  imageUrl: string; // URL Preview на аукцион
+};
+
+export type SignatureCallback = (txData: any) => Promise<any>;
+
 function fetchWrapper(url: string): Promise<ResponseItem[]> {
   return fetch(url).then((response) => response.json());
 }
 
+const CONTRACT_ADDRESS = '3MvoQ3q8wFnquWFPSZuBGunTnE1fphumBxd';
+
 export function getUrl(matches: string): string {
-  const ENDPOINT = `https://nodes-testnet.wavesnodes.com/addresses/data/3MvoQ3q8wFnquWFPSZuBGunTnE1fphumBxd?matches=`;
+  const ENDPOINT = `https://nodes-testnet.wavesnodes.com/addresses/data/${CONTRACT_ADDRESS}?matches=`;
   return ENDPOINT + matches;
 }
 
@@ -77,4 +88,26 @@ export async function getAuctions(organizer?: string) {
   const promises = auctionIds.map((id) => getAuctionDetails(id));
   const auctions = await Promise.all(promises);
   return auctions;
+}
+
+export async function createLot(
+  lot: Lot,
+  sign: SignatureCallback
+): Promise<any> {
+  const tx = {
+    type: 3,
+    data: {
+      name: lot.name,
+      description: lot.imageUrl,
+      quantity: 1,
+      precision: 0,
+      reissuable: false,
+      fee: {
+        tokens: 0.001 * WAVES,
+        assetId: 'WAVES',
+      },
+    },
+  };
+
+  return sign(tx);
 }
