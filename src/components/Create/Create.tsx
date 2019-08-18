@@ -12,7 +12,7 @@ import React from 'react';
 import { FormComponentProps } from 'antd/lib/form';
 import { Section } from '../Section/Section';
 
-import { createLot } from '../../utils/api';
+import { createLot, awaitTx } from '../../utils/api';
 import { withKeeper } from '../../utils/tmpSimpleKeeper';
 
 const { Option } = Select;
@@ -35,7 +35,7 @@ class Create extends React.Component<FormComponentProps> {
             api.signAndPublishTransaction
           );
 
-          console.info('Created asset: ' + lotTx.id);
+          console.info('Created asset: ' + lotTx.id + ' waiting for tx');
         });
       }
     });

@@ -84,25 +84,38 @@ export type TxResponse = {
   timestamp: number;
 };
 
+export type Error = {
+  error: string;
+  message: string;
+};
+
 export type SignatureCallback = (txData: any) => Promise<any>;
 
 function fetchWrapper(url: string): Promise<ResponseItem[]> {
   return fetch(url).then((response) => response.json());
 }
 
+function generalFetchWrapper(url: string): Promise<any> {
+  return fetch(url).then((response) => response.json());
+}
+
 const CONTRACT_ADDRESS = '3MvoQ3q8wFnquWFPSZuBGunTnE1fphumBxd';
+
+const BASE_URL = 'https://nodes-testnet.wavesnodes.com';
 
 export function toShortTokenAmount(amount: string | number) {
   return (parseInt('' + amount) / WAVES).toString();
 }
+export function getUrl(url: string): string {
+  return `${BASE_URL}/${url}`;
+}
 
-export function getUrl(matches: string): string {
-  const ENDPOINT = `https://nodes-testnet.wavesnodes.com/addresses/data/${CONTRACT_ADDRESS}?matches=`;
-  return ENDPOINT + matches;
+export function getDataUrl(matches: string): string {
+  return getUrl(`addresses/data/${CONTRACT_ADDRESS}?matches=${matches}`);
 }
 
 export async function getAuctionIds(organizer = '.*'): Promise<string[]> {
-  const res = await fetchWrapper(getUrl(organizer + '_organizer'));
+  const res = await fetchWrapper(getDataUrl(organizer + '_organizer'));
   let auctionIds: string[] = [];
   for (let i = 0; i < res.length; i++) {
     auctionIds.push(...res[i].value.trim().split(' '));
@@ -111,7 +124,7 @@ export async function getAuctionIds(organizer = '.*'): Promise<string[]> {
 }
 
 export async function getAuctionDetails(auctionId: string) {
-  const res = await fetchWrapper(getUrl(auctionId + '_.*'));
+  const res = await fetchWrapper(getDataUrl(auctionId + '_.*'));
   let auctionDetails: AuctionDetails = {
     id: res[0].key.split('_')[0],
   };
@@ -316,7 +329,22 @@ export async function withdraw(
   return sign(tx).then(JSON.parse);
 }
 
-function randomStr() {
+export async function getTxInfo(txid: string): Promise<Error | TxResponse> {
+  const url = getUrl(`transactions/info/${txid}`);
+  return generalFetchWrapper(url);
+}
+
+export async function awaitTx(txid: string): Promise<TxResponse> {
+  return new Promise(function(resolve) {
+    (async function wait() {
+      const info = await getTxInfo(txid);
+      if (!(info as Error).error) return resolve(info as TxResponse);
+      setTimeout(wait, 300);
+    })();
+  });
+}
+
+export function randomStr() {
   return (
     Math.random()
       .toString(36)
