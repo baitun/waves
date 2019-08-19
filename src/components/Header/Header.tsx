@@ -43,7 +43,9 @@ const Header: React.FC<HeaderProps> = ({ state }) => {
           style={{ float: 'right' }}
         >
           <Menu.Item key="/waves/auctions">My auctions</Menu.Item>
-          <Menu.Item key="/waves/bids">My bids</Menu.Item>
+          <Menu.Item disabled key="/waves/bids">
+            My bids
+          </Menu.Item>
           <Menu.Item key="/waves/lots">My lots</Menu.Item>
 
           <Menu.ItemGroup title="Info">
