@@ -1,3 +1,3 @@
-import { AuctionDetails } from './utils/api';
+import { IAuctionDetails } from './utils/api';
 
-export type Item = AuctionDetails;
+export type Item = IAuctionDetails;

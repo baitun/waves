@@ -11,7 +11,7 @@ type ResponseItem = {
   key: string;
 };
 
-export type AuctionDetails = {
+export type IAuctionDetails = {
   id: string;
 
   lot_amount?: string;
@@ -125,7 +125,7 @@ export async function getAuctionIds(organizer = '.*'): Promise<string[]> {
 
 export async function getAuctionDetails(auctionId: string) {
   const res = await fetchWrapper(getDataUrl(auctionId + '_.*'));
-  let auctionDetails: AuctionDetails = {
+  let auctionDetails: IAuctionDetails = {
     id: res[0].key.split('_')[0],
   };
   for (let i = 0; i < res.length; i++) {

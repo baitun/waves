@@ -1,7 +1,7 @@
 import { notification } from 'antd';
 import { HookRouter, useRedirect, useRoutes } from 'hookrouter';
 import React, { useEffect, useState } from 'react';
-import { AuctionDetails, getAuctions } from '../../utils/api';
+import { IAuctionDetails, getAuctions } from '../../utils/api';
 import { IPublicState } from '../../utils/keeper';
 import { tmpKeeperInit } from '../../utils/tmpSimpleKeeper';
 import { Cards } from '../Cards/Cards';
@@ -13,7 +13,7 @@ import Page from '../Page/Page';
 export const App = () => {
   useRedirect('/', '/waves/');
   const [state, setState] = useState<IPublicState>();
-  const [auctions, setAuctions] = useState<AuctionDetails[]>();
+  const [auctions, setAuctions] = useState<IAuctionDetails[]>();
   useEffect(() => {
     // @FIXME
     tmpKeeperInit()
