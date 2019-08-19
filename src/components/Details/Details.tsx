@@ -1,28 +1,20 @@
 import { Button, InputNumber, Typography } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Item } from '../../types';
-import { DetailsTable } from '../DetailsTable/DetailsTable';
-import { Section } from '../Section/Section';
 import { getImage } from '../../utils/getImage';
 import { IPublicState } from '../../utils/keeper';
+import { DetailsTable } from '../DetailsTable/DetailsTable';
+import { Section } from '../Section/Section';
 
 type Props = {
   id: string;
-  items: Item[];
+  item?: Item;
   state?: IPublicState;
 };
-export const Details: React.FC<Props> = ({ id, items, state }) => {
-  const [item, setItem] = useState<Item | undefined>(undefined);
+export const Details: React.FC<Props> = ({ id, item, state }) => {
   const [bidAmount, setBidAmount] = useState(0);
-  useEffect(() => {
-    setItem(items.find((item) => item.id === id) || items[0]);
-  }, [id, items]);
-  useEffect(() => {
-    if (item === undefined) return;
-    // setBidAmount(item.price);
-  }, [item]);
 
-  if (item === undefined) return <>Not found</>;
+  if (item === undefined) return <>Auction not found</>;
 
   return (
     <Section>

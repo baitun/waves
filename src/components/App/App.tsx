@@ -45,7 +45,11 @@ export const App = () => {
     '/waves/create/lot': () => <CreateLot />,
     '/waves/create/auction': () => <CreateAuction />,
     '/waves/auction/:id': ({ id }) => (
-      <Details id={id} state={state} items={auctions || []} />
+      <Details
+        id={id}
+        state={state}
+        item={auctions!.find((a) => a.id === id)}
+      />
     ),
   };
 
