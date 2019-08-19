@@ -44,7 +44,7 @@ export const App = () => {
     '/waves/bids': () => <Cards items={auctions || []} />,
     '/waves/create/lot': () => <CreateLot />,
     '/waves/create/auction': () => <CreateAuction />,
-    '/waves/bid/:id': ({ id }) => (
+    '/waves/auction/:id': ({ id }) => (
       <Details id={id} state={state} items={auctions || []} />
     ),
   };

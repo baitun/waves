@@ -10,7 +10,7 @@ export type CardProps = {
   item: Item;
 };
 export const Card: React.FC<CardProps> = ({ item }) => {
-  const handleClick = () => navigate(`/waves/bid/${item.id}`);
+  const handleClick = () => navigate(`/waves/auction/${item.id}`);
 
   return (
     <div className={style.card} onClick={handleClick}>
