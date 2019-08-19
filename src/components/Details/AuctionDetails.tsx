@@ -5,26 +5,26 @@ import { getImage } from '../../utils/getImage';
 import { IPublicState } from '../../utils/keeper';
 import { DetailsTable } from '../DetailsTable/DetailsTable';
 import { Section } from '../Section/Section';
+import { IAuctionDetails } from '../../utils/api';
 
 type Props = {
-  id: string;
-  item?: Item;
+  auction?: IAuctionDetails;
   state?: IPublicState;
 };
-export const Details: React.FC<Props> = ({ id, item, state }) => {
+export const AuctionDetails: React.FC<Props> = ({ auction, state }) => {
   const [bidAmount, setBidAmount] = useState(0);
 
-  if (item === undefined) return <>Auction not found</>;
+  if (auction === undefined) return <>Auction not found</>;
 
   return (
     <Section>
-      <Typography.Title level={1}>{item.id}</Typography.Title>
-      <img src={getImage(item)} alt={''} />
-      <DetailsTable item={item} />
+      <Typography.Title level={1}>{auction.id}</Typography.Title>
+      <img src={getImage(auction)} alt={''} />
+      <DetailsTable item={auction} />
       <br />
       <br />
 
-      {state!.account!.address === item.organizer ? (
+      {state!.account!.address === auction.organizer ? (
         <>
           <Button type="primary">SETTLE</Button>
         </>

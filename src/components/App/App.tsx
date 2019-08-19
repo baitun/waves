@@ -7,7 +7,7 @@ import { tmpKeeperInit } from '../../utils/tmpSimpleKeeper';
 import { Cards } from '../Cards/Cards';
 import CreateAuction from '../Create/CreateAuction';
 import CreateLot from '../Create/CreateLot';
-import { Details } from '../Details/Details';
+import { AuctionDetails } from '../Details/AuctionDetails';
 import Page from '../Page/Page';
 
 export const App = () => {
@@ -45,10 +45,9 @@ export const App = () => {
     '/waves/create/lot': () => <CreateLot />,
     '/waves/create/auction': () => <CreateAuction />,
     '/waves/auction/:id': ({ id }) => (
-      <Details
-        id={id}
+      <AuctionDetails
         state={state}
-        item={auctions!.find((a) => a.id === id)}
+        auction={auctions!.find((a) => a.id === id)}
       />
     ),
   };
