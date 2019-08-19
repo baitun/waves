@@ -1,16 +1,14 @@
 import { Icon } from 'antd';
-import { navigate } from 'hookrouter';
 import React from 'react';
 import style from './Card.module.css';
 
-type Props = {};
-export const CardAdd: React.FC<Props> = () => {
+type Props = {
+  onClick: () => void;
+  title: string;
+};
+export const CardAdd: React.FC<Props> = (props) => {
   return (
-    <div
-      className={`${style.card} ${style.add}`}
-      onClick={() => navigate('/waves/create/lot')}
-      title="Create a new lot"
-    >
+    <div className={`${style.card} ${style.add}`} {...props}>
       <Icon className={style.add} type="plus" />
     </div>
   );

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { IAuctionDetails, getAuctions } from '../../utils/api';
 import { IPublicState } from '../../utils/keeper';
 import { tmpKeeperInit } from '../../utils/tmpSimpleKeeper';
-import { Cards } from '../Cards/Cards';
+import { CardsAuctions } from '../Cards/CardsAuctions';
 import CreateAuction from '../Create/CreateAuction';
 import CreateLot from '../Create/CreateLot';
 import { AuctionDetails } from '../Details/AuctionDetails';
@@ -38,10 +38,10 @@ export const App = () => {
   }, []);
 
   const routes: HookRouter.RouteObject = {
-    '/waves/': () => <Cards items={auctions || []} />,
-    '/waves/auctions': () => <Cards items={auctions || []} />,
-    '/waves/lots': () => <Cards items={auctions || []} />,
-    '/waves/bids': () => <Cards items={auctions || []} />,
+    '/waves/': () => <CardsAuctions auctions={auctions || []} />,
+    '/waves/auctions': () => <CardsAuctions auctions={auctions || []} />,
+    '/waves/lots': () => <CardsAuctions auctions={auctions || []} />,
+    '/waves/bids': () => <CardsAuctions auctions={auctions || []} />,
     '/waves/create/lot': () => <CreateLot />,
     '/waves/create/auction': () => <CreateAuction />,
     '/waves/auction/:id': ({ id }) => (
