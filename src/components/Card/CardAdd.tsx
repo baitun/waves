@@ -9,7 +9,7 @@ type Props = {
 export const CardAdd: React.FC<Props> = (props) => {
   return (
     <div className={`${style.card} ${style.add}`} {...props}>
-      <Icon className={style.add} type="plus" />
+      <Icon type="plus" />
     </div>
   );
 };

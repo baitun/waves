@@ -1,11 +1,10 @@
 import { Button, InputNumber, Typography } from 'antd';
 import React, { useState } from 'react';
-import { Item } from '../../types';
+import { IAuctionDetails } from '../../utils/api';
 import { getImage } from '../../utils/getImage';
 import { IPublicState } from '../../utils/keeper';
 import { DetailsTable } from '../DetailsTable/DetailsTable';
 import { Section } from '../Section/Section';
-import { IAuctionDetails } from '../../utils/api';
 
 type Props = {
   auction?: IAuctionDetails;

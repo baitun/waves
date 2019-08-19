@@ -45,10 +45,12 @@ export type IAuctionDetails = {
   settle?: boolean;
 };
 
-export type Lot = {
+export type ILot = {
   name: string; // Token name
   imageUrl: string; // URL Preview на аукцион
 };
+
+export type ILotDetails = ILot & { id: string };
 
 export type Auction = {
   assetId: string;
@@ -144,7 +146,7 @@ export async function getAuctions(organizer?: string) {
 }
 
 export async function createLot(
-  lot: Lot,
+  lot: ILot,
   sign: SignatureCallback
 ): Promise<TxResponse> {
   const tx = {

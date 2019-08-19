@@ -1,10 +1,11 @@
 import { notification } from 'antd';
 import { HookRouter, useRedirect, useRoutes } from 'hookrouter';
 import React, { useEffect, useState } from 'react';
-import { IAuctionDetails, getAuctions } from '../../utils/api';
+import { getAuctions, IAuctionDetails } from '../../utils/api';
 import { IPublicState } from '../../utils/keeper';
 import { tmpKeeperInit } from '../../utils/tmpSimpleKeeper';
 import { CardsAuctions } from '../Cards/CardsAuctions';
+import { CardsLots } from '../Cards/CardsLots';
 import CreateAuction from '../Create/CreateAuction';
 import CreateLot from '../Create/CreateLot';
 import { AuctionDetails } from '../Details/AuctionDetails';
@@ -40,16 +41,17 @@ export const App = () => {
   const routes: HookRouter.RouteObject = {
     '/waves/': () => <CardsAuctions auctions={auctions || []} />,
     '/waves/auctions': () => <CardsAuctions auctions={auctions || []} />,
-    '/waves/lots': () => <CardsAuctions auctions={auctions || []} />,
+    '/waves/lots': () => <CardsLots />,
     '/waves/bids': () => <CardsAuctions auctions={auctions || []} />,
     '/waves/create/lot': () => <CreateLot />,
     '/waves/create/auction': () => <CreateAuction />,
-    '/waves/auction/:id': ({ id }) => (
-      <AuctionDetails
-        state={state}
-        auction={auctions!.find((a) => a.id === id)}
-      />
-    ),
+    '/waves/auction/:id': ({ id }) =>
+      auctions && (
+        <AuctionDetails
+          state={state}
+          auction={auctions.find((a) => a.id === id)}
+        />
+      ),
   };
 
   const routeResult = useRoutes(routes);
