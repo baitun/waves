@@ -44,7 +44,9 @@ export const App = () => {
     '/waves/bids': () => <Cards items={auctions || []} />,
     '/waves/create/lot': () => <CreateLot />,
     '/waves/create/auction': () => <CreateAuction />,
-    '/waves/bid/:id': ({ id }) => <Details id={id} items={auctions || []} />,
+    '/waves/bid/:id': ({ id }) => (
+      <Details id={id} state={state} items={auctions || []} />
+    ),
   };
 
   const routeResult = useRoutes(routes);

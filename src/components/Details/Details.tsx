@@ -4,12 +4,14 @@ import { Item } from '../../types';
 import { DetailsTable } from '../DetailsTable/DetailsTable';
 import { Section } from '../Section/Section';
 import { getImage } from '../../utils/getImage';
+import { IPublicState } from '../../utils/keeper';
 
 type Props = {
   id: string;
   items: Item[];
+  state?: IPublicState;
 };
-export const Details: React.FC<Props> = ({ id, items }) => {
+export const Details: React.FC<Props> = ({ id, items, state }) => {
   const [item, setItem] = useState<Item | undefined>(undefined);
   const [bidAmount, setBidAmount] = useState(0);
   useEffect(() => {
@@ -29,14 +31,23 @@ export const Details: React.FC<Props> = ({ id, items }) => {
       <DetailsTable item={item} />
       <br />
       <br />
-      <InputNumber
-        value={bidAmount}
-        min={0}
-        formatter={(value) => (value ? (+value / 100).toFixed(2) : '')}
-        parser={(value) => (value ? parseFloat(value) * 100 : 0)}
-        onChange={(value) => value && setBidAmount(value)}
-      />{' '}
-      <Button type="primary">Bid</Button>
+
+      {state!.account!.address === item.organizer ? (
+        <>
+          <Button type="primary">SETTLE</Button>
+        </>
+      ) : (
+        <>
+          <InputNumber
+            value={bidAmount}
+            min={0}
+            formatter={(value) => (value ? (+value / 100).toFixed(2) : '')}
+            parser={(value) => (value ? parseFloat(value) * 100 : 0)}
+            onChange={(value) => value && setBidAmount(value)}
+          />{' '}
+          <Button type="primary">Bid</Button>
+        </>
+      )}
     </Section>
   );
 };
