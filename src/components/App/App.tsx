@@ -5,7 +5,8 @@ import { AuctionDetails, getAuctions } from '../../utils/api';
 import { IPublicState } from '../../utils/keeper';
 import { tmpKeeperInit } from '../../utils/tmpSimpleKeeper';
 import { Cards } from '../Cards/Cards';
-import Create2 from '../Create/Create';
+import CreateAuction from '../Create/CreateAuction';
+import CreateLot from '../Create/CreateLot';
 import { Details } from '../Details/Details';
 import Page from '../Page/Page';
 
@@ -38,8 +39,14 @@ export const App = () => {
 
   const routes: HookRouter.RouteObject = {
     '/waves/': () => <Cards items={auctions || []} />,
-    '/waves/create': () => <Create2 />,
-    '/waves/bid/:id': ({ id }) => <Details id={id} items={auctions || []} />,
+    '/waves/auctions': () => <Cards items={auctions || []} />,
+    '/waves/lots': () => <Cards items={auctions || []} />,
+    '/waves/bids': () => <Cards items={auctions || []} />,
+    '/waves/create/lot': () => <CreateLot />,
+    '/waves/create/auction': () => <CreateAuction />,
+    '/waves/bid/:id': ({ id }) => (
+      <Details id={id} state={state} items={auctions || []} />
+    ),
   };
 
   const routeResult = useRoutes(routes);

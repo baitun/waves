@@ -1,23 +1,14 @@
-import {
-  Button,
-  Form,
-  Icon,
-  InputNumber,
-  Select,
-  Upload,
-  Typography,
-  Input,
-} from 'antd';
-import React from 'react';
+import { Button, Form, InputNumber, Select, Typography } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import { Section } from '../Section/Section';
-
-import { createLot, awaitTx } from '../../utils/api';
+import { navigate } from 'hookrouter';
+import React from 'react';
+import { startAuction } from '../../utils/api';
 import { withKeeper } from '../../utils/tmpSimpleKeeper';
+import { Section } from '../Section/Section';
 
 const { Option } = Select;
 
-class Create extends React.Component<FormComponentProps> {
+class CreateAuctionPL extends React.Component<FormComponentProps> {
   handleSubmit = (e) => {
     e.preventDefault();
 
@@ -26,11 +17,13 @@ class Create extends React.Component<FormComponentProps> {
         console.log('Received values of form: ', values);
 
         withKeeper(async (api) => {
-          const lotTx = await createLot(
+          const lotTx = await startAuction(
             {
-              name: values['input-name'],
-              imageUrl:
-                'https://images-na.ssl-images-amazon.com/images/I/813XSSh%2BUTL._SY679_.jpg',
+              assetId: '',
+              duration: values['select-lot'],
+              startPrice: values['input-number-start-price'],
+              priceAssetId: 'WAVES',
+              deposit: values['input-number-deposit'],
             },
             api.signAndPublishTransaction
           );
@@ -57,19 +50,23 @@ class Create extends React.Component<FormComponentProps> {
     };
     return (
       <Section>
-        <Typography.Title>Create new lot</Typography.Title>
-        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-          <Form.Item label="Name">
-            {getFieldDecorator('input-name', {})(<Input />)}
-          </Form.Item>
+        <Typography.Title>Creating an auction</Typography.Title>
 
-          <Form.Item label="Currency" hasFeedback>
-            {getFieldDecorator('select', {})(
-              <Select placeholder="Please select a currency">
-                <Option value="WAVES">WAVES</Option>
-                <Option value="BTC">BTC</Option>
+        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+          <Form.Item label="Lot" hasFeedback>
+            {getFieldDecorator('select-lot', {})(
+              <Select>
+                <Option value="1">1</Option>
+                {/* put lots here ................................. */}
               </Select>
             )}
+            <Button onClick={() => navigate('/waves/create/lot')}>
+              Create Lot
+            </Button>
+          </Form.Item>
+
+          <Form.Item label="Duration">
+            {getFieldDecorator('duration', {})(<InputNumber step={1} />)}
           </Form.Item>
 
           <Form.Item label="Start price">
@@ -84,22 +81,9 @@ class Create extends React.Component<FormComponentProps> {
             )}
           </Form.Item>
 
-          <Form.Item label="Image">
-            {getFieldDecorator('upload', {
-              valuePropName: 'fileList',
-              getValueFromEvent: this.normFile,
-            })(
-              <Upload name="logo" action="/upload.do" listType="picture">
-                <Button>
-                  <Icon type="upload" /> Click to upload
-                </Button>
-              </Upload>
-            )}
-          </Form.Item>
-
           <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
             <Button type="primary" htmlType="submit">
-              Create
+              Save auction
             </Button>
           </Form.Item>
         </Form>
@@ -108,4 +92,4 @@ class Create extends React.Component<FormComponentProps> {
   }
 }
 
-export default Form.create({ name: 'validate_other' })(Create);
+export default Form.create({ name: 'validate_other' })(CreateAuctionPL);

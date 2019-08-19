@@ -27,8 +27,11 @@ const Header: React.FC<HeaderProps> = ({ state }) => {
         style={{ lineHeight: '64px' }}
         onClick={handleClick}
       >
-        <Menu.Item key="/waves/">All lots</Menu.Item>
-        <Menu.Item key="/waves/create">New lot</Menu.Item>
+        <Menu.Item key="/waves/">All auctions</Menu.Item>
+        <Menu.SubMenu title="Create">
+          <Menu.Item key="/waves/create/lot">Create lot</Menu.Item>
+          <Menu.Item key="/waves/create/auction">Create auction</Menu.Item>
+        </Menu.SubMenu>
         <Menu.SubMenu
           title={
             <span className="submenu-title-wrapper">
@@ -39,10 +42,14 @@ const Header: React.FC<HeaderProps> = ({ state }) => {
           }
           style={{ float: 'right' }}
         >
-          <Menu.Item disabled key="adress">
-            {state && state.account && state.account.address}
-          </Menu.Item>
+          <Menu.Item key="/waves/auctions">My auctions</Menu.Item>
+          <Menu.Item key="/waves/bids">My bids</Menu.Item>
+          <Menu.Item key="/waves/lots">My lots</Menu.Item>
+
           <Menu.ItemGroup title="Info">
+            <Menu.Item disabled key="adress">
+              {state && state.account && state.account.address}
+            </Menu.Item>
             <Menu.Item disabled key="balance-available">
               Balance:{' '}
               {state &&
