@@ -2,7 +2,6 @@ import { Typography } from 'antd';
 import { navigate } from 'hookrouter';
 import React from 'react';
 import { ILotDetails } from '../../utils/api';
-import { getImage } from '../../utils/getImage';
 import style from './Card.module.css';
 
 export type CardLotProps = {
