@@ -9,6 +9,7 @@ import { CardsLots } from '../Cards/CardsLots';
 import CreateAuction from '../Create/CreateAuction';
 import CreateLot from '../Create/CreateLot';
 import { AuctionDetails } from '../Details/AuctionDetails';
+import { LotDetails } from '../Details/LotDetails';
 import Page from '../Page/Page';
 
 export const App = () => {
@@ -52,6 +53,7 @@ export const App = () => {
           auction={auctions.find((a) => a.id === id)}
         />
       ),
+    '/waves/lot/:id': ({ id }) => <LotDetails id={id} />,
   };
 
   const routeResult = useRoutes(routes);
