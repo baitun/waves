@@ -63,7 +63,9 @@ export type Auction = {
 export type Bid = {
   auctionId: string;
   hash: string;
+  /** валюта аукциона (base58 адрес токена валюты или строка 'WAVES') */
   priceAssetId?: string;
+  /** размер депозита участника (максимальная цена) по аукциону */
   deposit: number;
 };
 
