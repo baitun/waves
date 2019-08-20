@@ -1,12 +1,14 @@
 import { Table, Typography } from 'antd';
+import { ColumnProps } from 'antd/lib/table';
 import React, { useEffect, useState } from 'react';
+import { getBids } from '../../mocks';
 import { Bid } from '../../utils/api';
 import { Section } from '../Section/Section';
-import { ColumnProps } from 'antd/lib/table';
 
 const columns: ColumnProps<any>[] = [
   { title: 'Auction ID', dataIndex: 'auctionId' },
-  { title: 'deposit', dataIndex: 'deposit' },
+  { title: 'Start price', dataIndex: 'startPrice' },
+  { title: 'Deposit', dataIndex: 'deposit' },
 ];
 
 type Props = {};
@@ -14,14 +16,7 @@ export const Bids: React.FC<Props> = () => {
   const [bids, setBids] = useState<Bid[]>([]);
 
   useEffect(() => {
-    const bids: Bid[] = [
-      {
-        auctionId: 'TAyRZ8XwQ5HYTkZUrTkMFb4oG43UMkCmB3wT5zdj6nL',
-        hash: 'hashhashhashhashhashhashhashhash',
-        priceAssetId: 'WAVES',
-        deposit: 1000,
-      },
-    ];
+    const bids = getBids();
     setBids(bids);
   }, []);
 
