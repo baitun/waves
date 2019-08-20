@@ -24,7 +24,12 @@ export const Bids: React.FC<Props> = () => {
     <Section>
       <Typography.Title level={1}>My bids</Typography.Title>
 
-      <Table columns={columns} dataSource={bids} pagination={false}></Table>
+      <Table
+        columns={columns}
+        dataSource={bids}
+        pagination={false}
+        rowKey="auctionId"
+      ></Table>
     </Section>
   );
 };
