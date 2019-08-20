@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { getAuctions, IAuctionDetails } from '../../utils/api';
 import { IPublicState } from '../../utils/keeper';
 import { tmpKeeperInit } from '../../utils/tmpSimpleKeeper';
+import { Bids } from '../Bids/Bids';
 import { CardsAuctions } from '../Cards/CardsAuctions';
 import { CardsLots } from '../Cards/CardsLots';
 import CreateAuction from '../Create/CreateAuction';
@@ -43,7 +44,7 @@ export const App = () => {
     '/waves/': () => <CardsAuctions auctions={auctions || []} />,
     '/waves/auctions': () => <CardsAuctions auctions={auctions || []} />,
     '/waves/lots': () => <CardsLots />,
-    '/waves/bids': () => <CardsAuctions auctions={auctions || []} />,
+    '/waves/bids': () => <Bids />,
     '/waves/create/lot': () => <CreateLot />,
     '/waves/create/auction': () => <CreateAuction />,
     '/waves/auction/:id': ({ id }) =>
