@@ -14,7 +14,7 @@ type ResponseItem = {
 export type IAuctionDetails = {
   id: string;
 
-  lot_amount?: string;
+  lot_amount?: number;
 
   /** base58 адрес устроителя аукциона */
   organizer?: string;
@@ -25,22 +25,22 @@ export type IAuctionDetails = {
   priceAssetId?: string;
   // price_asset_id?: string;
   /** начальная (минимальная) цена лота */
-  startPrice?: string;
+  startPrice?: number;
   // start_price?: string;
   /** наивысшая раскрытая цена */
-  top_price?: string;
+  top_price?: number;
   /** вторая раскрытая цена */
-  second_price?: string;
+  second_price?: number;
   /** base58 адрес победителя аукциона */
   winner?: string;
   /** номер блока (выста) с которой начинается фаза раскрытия */
-  reveal_start?: string;
+  reveal_start?: number;
   /** номер блока (выста) с которой начинается фаза окончения */
-  closing_start?: string;
+  closing_start?: number;
   /** размер депозита (максимальной ставки) для участия в аукционе */
-  deposit?: string;
+  deposit?: number;
   /** количество не раскрывшихся участников */
-  unrevealed_count?: string;
+  unrevealed_count?: number;
   /** признак что аукцион завершился (деньги перечислены организатору, а лот участнику) */
   settle?: boolean;
 };
@@ -68,6 +68,8 @@ export type Bid = {
   /** размер депозита участника (максимальная цена) по аукциону */
   deposit: number;
 };
+
+export type IBidDetails = Bid & IAuctionDetails;
 
 export type HashedBid = {
   amount: number;
@@ -140,7 +142,9 @@ export async function getAuctionDetails(auctionId: string) {
   return auctionDetails;
 }
 
-export async function getAuctions(organizer?: string) {
+export async function getAuctions(
+  organizer?: string
+): Promise<IAuctionDetails[]> {
   const auctionIds = await getAuctionIds(organizer);
   const promises = auctionIds.map((id) => getAuctionDetails(id));
   const auctions = await Promise.all(promises);
