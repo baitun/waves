@@ -21,7 +21,7 @@ export function tmpKeeperInit(): Promise<IPublicState> {
   });
 }
 
-export const withKeeper = (cb: (IWavesKeeperOptions) => any) => {
+export const withKeeper = (cb: (options: IWavesKeeperOptions) => any) => {
   WavesKeeper.initialPromise.then((api) => {
     cb(api);
   });
