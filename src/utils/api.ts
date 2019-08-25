@@ -95,6 +95,12 @@ export type Error = {
   message: string;
 };
 
+export type NFT = {
+  description: string;
+  id: string;
+  name: string;
+};
+
 export type SignatureCallback = (txData: any) => Promise<any>;
 
 function fetchWrapper(url: string): Promise<ResponseItem[]> {
@@ -171,6 +177,11 @@ export async function createLot(
   };
 
   return sign(tx).then(JSON.parse);
+}
+
+export async function getLots(accountId: string): Promise<Array<NFT>> {
+  const url = getUrl(`assets/nft/${accountId}/limit/100`);
+  return generalFetchWrapper(url);
 }
 
 export async function startAuction(

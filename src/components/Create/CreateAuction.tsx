@@ -2,13 +2,23 @@ import { Button, Form, InputNumber, Select, Typography } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { navigate } from 'hookrouter';
 import React from 'react';
-import { startAuction } from '../../utils/api';
+import { startAuction, getLots, NFT } from '../../utils/api';
 import { withKeeper } from '../../utils/tmpSimpleKeeper';
 import { Section } from '../Section/Section';
 
 const { Option } = Select;
 
-class CreateAuctionPL extends React.Component<FormComponentProps> {
+interface State {
+  lots?: Array<NFT>;
+}
+
+class CreateAuctionPL extends React.Component<FormComponentProps, State> {
+  constructor(props) {
+    super(props);
+
+    this.state = { lots: [] };
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
 
@@ -42,8 +52,26 @@ class CreateAuctionPL extends React.Component<FormComponentProps> {
     return e && e.fileList;
   };
 
+  componentDidMount() {
+    const that = this;
+    withKeeper((api) => {
+      api.publicState().then((ps) => {
+        const address = ps.account && ps.account.address;
+
+        if (address) {
+          getLots(address).then((result) => {
+            that.setState({
+              lots: result,
+            });
+          });
+        }
+      });
+    });
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { lots } = this.state;
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
@@ -56,8 +84,12 @@ class CreateAuctionPL extends React.Component<FormComponentProps> {
           <Form.Item label="Lot" hasFeedback>
             {getFieldDecorator('select-lot', {})(
               <Select>
-                <Option value="1">1</Option>
-                {/* put lots here ................................. */}
+                {lots &&
+                  lots.map((lot) => (
+                    <Option value={lot.id} key={lot.id}>
+                      {lot.name}
+                    </Option>
+                  ))}
               </Select>
             )}
             <Button onClick={() => navigate('/waves/create/lot')}>
