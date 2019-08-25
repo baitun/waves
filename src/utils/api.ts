@@ -111,7 +111,7 @@ function generalFetchWrapper(url: string): Promise<any> {
   return fetch(url).then((response) => response.json());
 }
 
-const CONTRACT_ADDRESS = '3MvoQ3q8wFnquWFPSZuBGunTnE1fphumBxd';
+const CONTRACT_ADDRESS = '3N4vYCshKfrNXYTmg4Z7af2wKprhDsLBqP2';
 
 const BASE_URL = 'https://nodes-testnet.wavesnodes.com';
 
@@ -195,10 +195,10 @@ export async function startAuction(
     type: 16,
     data: {
       fee: {
-        tokens: 0.005 * WAVES,
+        tokens: '0.005',
         assetId: 'WAVES',
       },
-      dappAddress: CONTRACT_ADDRESS,
+      dApp: CONTRACT_ADDRESS,
       call: {
         function: 'startAuction',
         args: [
@@ -208,7 +208,7 @@ export async function startAuction(
           },
           {
             type: 'integer',
-            value: auction.startPrice,
+            value: auction.startPrice * WAVES,
           },
           {
             type: 'string',
@@ -216,7 +216,7 @@ export async function startAuction(
           },
           {
             type: 'integer',
-            value: auction.deposit,
+            value: auction.deposit * WAVES,
           },
         ],
       },
@@ -236,7 +236,7 @@ export async function startAuction(
 // base64(hash(SALT + bidAmount.toString()))
 //
 export function toHash(amount: number): HashedBid {
-  const bidStr = amount.toString();
+  const bidStr = (amount * WAVES).toString();
   const salt = randomStr();
   const strToHash = salt + bidStr;
   const bytesToHash = stringToBytes(strToHash);
@@ -257,10 +257,10 @@ export async function bid(
     type: 16,
     data: {
       fee: {
-        tokens: 0.005 * WAVES,
+        tokens: 0.005,
         assetId: 'WAVES',
       },
-      dappAddress: CONTRACT_ADDRESS,
+      dApp: CONTRACT_ADDRESS,
       call: {
         function: 'bid',
         args: [
@@ -294,10 +294,10 @@ export async function reveal(
     type: 16,
     data: {
       fee: {
-        tokens: 0.005 * WAVES,
+        tokens: 0.005,
         assetId: 'WAVES',
       },
-      dappAddress: CONTRACT_ADDRESS,
+      dApp: CONTRACT_ADDRESS,
       call: {
         function: 'reveal',
         args: [
@@ -329,10 +329,10 @@ export async function withdraw(
     type: 16,
     data: {
       fee: {
-        tokens: 0.005 * WAVES,
+        tokens: 0.005,
         assetId: 'WAVES',
       },
-      dappAddress: CONTRACT_ADDRESS,
+      dApp: CONTRACT_ADDRESS,
       call: {
         function: 'withdraw',
         args: [
