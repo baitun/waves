@@ -33,12 +33,15 @@ export const App = () => {
   }, []);
 
   useEffect(() => {
-    // const organizer = state.account!.address;
-    const organizer = '3MvxXxJcuELB2UaCHKVQaUszu8u3NmXxoWr';
+    if (!state) return;
+    if (!state.account) {
+      throw new Error('There is no `account` field in `state` object');
+    }
+    const organizer = state.account.address;
     getAuctions(organizer).then((auctions) => {
       setAuctions(auctions);
     });
-  }, []);
+  }, [state]);
 
   const routes: HookRouter.RouteObject = {
     '/waves/': () => <CardsAuctions auctions={auctions || []} />,
