@@ -89,7 +89,7 @@ export const Bids: React.FC<Props> = () => {
                   ) as HashedBid;
 
                   const alreadyRevealed = bid[`${address}_revealed`];
-                  const alreadySettled = bid[`${address}_settle]`];
+                  const alreadySettled = bid[`${address}_settle`];
 
                   return {
                     deposit: toShortTokenAmount(bid.deposit),

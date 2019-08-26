@@ -121,7 +121,7 @@ function generalFetchWrapper(url: string): Promise<any> {
   return fetch(url).then((response) => response.json());
 }
 
-const CONTRACT_ADDRESS = '3N76Y14RPeA9uMm7x2K4t3khD82WdeeV9WX';
+const CONTRACT_ADDRESS = '3MrtCAwzpyGd4gHfZvRRc3n3vJBceDLL7kg';
 
 const BASE_URL = 'https://nodes-testnet.wavesnodes.com';
 
@@ -177,7 +177,7 @@ export async function getAuctionDetails(auctionId: string) {
   }
 
   for (let i = 0; i < userRes.length; i++) {
-    const key = userRes[i].key.replace(auctionId, '').substr(1);
+    const key = userRes[i].key.replace(auctionId, '');
     const val = userRes[i].value;
     auctionDetails[key] = val;
   }

@@ -67,7 +67,13 @@ export const App = () => {
         }
       />
     ),
-    '/waves/auctions': () => <CardsAuctions auctions={myAuctions || []} />,
+    '/waves/auctions': () => (
+      <CardsAuctions
+        auctions={
+          (myAuctions && myAuctions.filter((auction) => !auction.settle)) || []
+        }
+      />
+    ),
     '/waves/lots': () => <CardsLots />,
     '/waves/bids': () => <Bids />,
     '/waves/create/lot': () => <CreateLot />,
