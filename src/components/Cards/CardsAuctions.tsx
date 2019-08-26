@@ -11,8 +11,8 @@ export const CardsAuctions: React.FC<CardsProps> = ({ auctions }) => {
   return (
     <div className={style.cards}>
       <CardAdd
-        onClick={() => navigate('/waves/create/lot')}
-        title="Create a new lot"
+        onClick={() => navigate('/waves/create/auction')}
+        title="Create a new auction"
       />
       {auctions.map((item) => (
         <Card key={item.id} item={item} />
