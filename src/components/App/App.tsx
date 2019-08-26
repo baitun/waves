@@ -59,7 +59,14 @@ export const App = () => {
   }, [state]);
 
   const routes: HookRouter.RouteObject = {
-    '/waves/': () => <CardsAuctions auctions={auctions || []} />,
+    '/waves/': () => (
+      <CardsAuctions
+        auctions={
+          (auctions && auctions.filter((auction) => auction.phase === 'BID')) ||
+          []
+        }
+      />
+    ),
     '/waves/auctions': () => <CardsAuctions auctions={myAuctions || []} />,
     '/waves/lots': () => <CardsLots />,
     '/waves/bids': () => <Bids />,

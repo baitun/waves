@@ -22,7 +22,15 @@ export function tmpKeeperInit(): Promise<IPublicState> {
 }
 
 export const withKeeper = (cb: (options: IWavesKeeperOptions) => any) => {
-  WavesKeeper.initialPromise.then((api) => {
-    cb(api);
-  });
+  const fun = () => {
+    if (window['WavesKeeper']) {
+      WavesKeeper.initialPromise.then((api) => {
+        cb(api);
+      });
+    } else {
+      setTimeout(fun, 50);
+    }
+  };
+
+  fun();
 };

@@ -121,7 +121,7 @@ function generalFetchWrapper(url: string): Promise<any> {
   return fetch(url).then((response) => response.json());
 }
 
-const CONTRACT_ADDRESS = '3N4vYCshKfrNXYTmg4Z7af2wKprhDsLBqP2';
+const CONTRACT_ADDRESS = '3Muko2ava9FcKG29BZQW3fcfFAXtfpWL2me';
 
 const BASE_URL = 'https://nodes-testnet.wavesnodes.com';
 
@@ -140,7 +140,9 @@ export async function getCurrentHeight(): Promise<number> {
   return generalFetchWrapper(getUrl(`blocks/height`)).then((val) => val.height);
 }
 
-export async function getAuctionIds(organizer = '.*'): Promise<string[]> {
+export async function getAuctionIds(
+  organizer = '[A-Za-z0-9]{35}'
+): Promise<string[]> {
   const res = await fetchWrapper(getDataUrl(organizer + '_organizer'));
   let auctionIds: string[] = [];
   for (let i = 0; i < res.length; i++) {

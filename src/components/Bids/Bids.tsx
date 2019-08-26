@@ -18,6 +18,7 @@ type BidView = {
   auctionId: string;
   startPrice: string;
   status: string;
+  alreadyRevealed: boolean;
 };
 
 const columns: ColumnProps<BidView>[] = [
@@ -30,7 +31,7 @@ const columns: ColumnProps<BidView>[] = [
     title: 'Actions',
     render: (_, record) => (
       <>
-        {record.status === 'REVEAL' ? (
+        {record.status === 'REVEAL' && !record.alreadyRevealed ? (
           <Button onClick={doReveal(record)}>Reveal</Button>
         ) : (
           ''
@@ -87,6 +88,9 @@ export const Bids: React.FC<Props> = () => {
                   localStorage.getItem(bid.auctionId) || '{}'
                 ) as HashedBid;
 
+                const alreadyRevealed =
+                  bid[`${bid.auctionId}${address}_revealed`];
+
                 return {
                   deposit: toShortTokenAmount(bid.deposit),
                   myBid: toShortTokenAmount(fullHash.amount),
@@ -94,6 +98,7 @@ export const Bids: React.FC<Props> = () => {
                   fullHash: fullHash,
                   startPrice: toShortTokenAmount(bid.startPrice || 0),
                   status: bid.phase,
+                  alreadyRevealed: alreadyRevealed,
                 };
               })
             );

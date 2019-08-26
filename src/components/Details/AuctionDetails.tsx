@@ -61,10 +61,9 @@ export const AuctionDetails: React.FC<Props> = ({ auction, state }) => {
       ) : (
         <>
           <InputNumber
+            step={0.01}
             value={bidAmount}
             min={0}
-            formatter={(value) => (value ? (+value / 100).toFixed(2) : '')}
-            parser={(value) => (value ? parseFloat(value) * 100 : 0)}
             onChange={(value) => value && setBidAmount(value)}
           />{' '}
           <Button type="primary" onClick={handleBid}>
