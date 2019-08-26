@@ -1,4 +1,11 @@
-import { Button, Form, InputNumber, Select, Typography } from 'antd';
+import {
+  Button,
+  Form,
+  InputNumber,
+  Select,
+  Typography,
+  notification,
+} from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { navigate } from 'hookrouter';
 import React from 'react';
@@ -39,6 +46,10 @@ class CreateAuctionPL extends React.Component<FormComponentProps, State> {
           );
 
           console.info('Created asset: ' + lotTx.id + ' waiting for tx');
+          notification.success({ message: 'Created asset: ' + lotTx.id });
+          setTimeout(() => {
+            navigate('/waves/auctions');
+          }, 1000);
         });
       }
     });
