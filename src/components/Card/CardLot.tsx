@@ -14,6 +14,7 @@ export const CardLot: React.FC<CardLotProps> = ({ lot }) => {
     <div className={style.card} onClick={handleClick}>
       <img src={lot.imageUrl} alt={''} />
 
+      <Typography.Text>{lot.id.substr(20, lot.id.length)}</Typography.Text>
       <Typography.Title className={style.title} level={4}>
         {lot.name}
       </Typography.Title>
