@@ -68,6 +68,8 @@ export type Auction = {
   deposit: number;
 };
 
+export type BidWithAuction = Bid & IAuctionDetails;
+
 export type Bid = {
   auctionId: string;
   hash: string;
@@ -80,7 +82,7 @@ export type Bid = {
 export type IBidDetails = Bid & IAuctionDetails;
 
 export type HashedBid = {
-  amount: number;
+  amount: string;
   salt: string;
   hashedAmount: string;
 };
@@ -160,7 +162,7 @@ export async function getAuctionDetails(auctionId: string) {
   const res = await fetchWrapper(getDataUrl(auctionId + '_.*'));
   const currentHeight = await getCurrentHeight();
   let auctionDetails: any = {
-    id: res[0].key.split('_')[0],
+    id: res[0] && res[0].key.split('_')[0],
   };
   for (let i = 0; i < res.length; i++) {
     const key = res[i].key.substr(res[i].key.indexOf('_') + 1);
@@ -174,6 +176,10 @@ export async function getAuctionDetails(auctionId: string) {
   auctionDetails['phase'] = 'BID';
   if (currentHeight >= revealStart && currentHeight < settleStart) {
     auctionDetails['phase'] = 'REVEAL';
+
+    if (auctionDetails['unrevealed_count'] === 0) {
+      auctionDetails['phase'] = 'SETTLE';
+    }
   }
   if (currentHeight >= settleStart) {
     auctionDetails['phase'] = 'SETTLE';
@@ -201,13 +207,16 @@ export async function getAuctionsAsBidder(
   return auctions;
 }
 
-export async function getBidsAsBidder(bidder: string): Promise<Bid[]> {
+export async function getBidsAsBidder(
+  bidder: string
+): Promise<BidWithAuction[]> {
   return getAuctionsAsBidder(bidder).then((auctions) =>
     auctions.map((auction) => {
       return {
         auctionId: auction.id,
         hash: auction[auction.id + bidder + '_bid_hash'],
         deposit: auction.deposit || 0,
+        ...auction,
       };
     })
   );
@@ -313,7 +322,7 @@ export function toHash(amount: number): HashedBid {
   const hashBytes = sha256(bytesToHash);
   const hashedAmount = base64Encode(hashBytes);
   return {
-    amount,
+    amount: bidStr,
     salt,
     hashedAmount,
   };
@@ -346,7 +355,7 @@ export async function bid(
       },
       payment: [
         {
-          tokens: bid.deposit,
+          tokens: '' + bid.deposit / WAVES,
           assetId: bid.priceAssetId || 'WAVES',
         },
       ],
@@ -385,6 +394,7 @@ export async function reveal(
           },
         ],
       },
+      payment: [],
     },
   };
 
@@ -412,6 +422,7 @@ export async function withdraw(
           },
         ],
       },
+      payment: [],
     },
   };
 

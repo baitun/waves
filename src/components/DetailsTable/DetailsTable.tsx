@@ -34,9 +34,7 @@ export const DetailsTable: React.FC<DetailsTableProps> = ({ item }) => {
     'Top price ': item.top_price
       ? toShortTokenAmount(item.top_price)
       : 'Will be known after time left for bids completed',
-    'Unrevealed count': item.unrevealed_count
-      ? item.unrevealed_count
-      : 'Will be known after time left for bids completed',
+    'Unrevealed count': item.unrevealed_count,
     'Time left for reveal bids': item.deltaSettle
       ? item.deltaSettle > 0
         ? item.deltaSettle
