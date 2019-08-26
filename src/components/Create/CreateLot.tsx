@@ -1,5 +1,14 @@
-import { Button, Form, Icon, Input, Typography, Upload } from 'antd';
+import {
+  Button,
+  Form,
+  Icon,
+  Input,
+  notification,
+  Typography,
+  Upload,
+} from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
+import { navigate } from 'hookrouter';
 import React from 'react';
 import { createLot } from '../../utils/api';
 import { IWavesKeeperOptions } from '../../utils/keeper';
@@ -24,6 +33,10 @@ class CreateLotPL extends React.Component<FormComponentProps> {
           );
 
           console.info('Created asset: ' + lotTx.id + ' waiting for tx');
+          notification.success({ message: 'Created asset: ' + lotTx.id });
+          setTimeout(() => {
+            navigate('/waves/lots');
+          }, 1000);
         });
       }
     });
