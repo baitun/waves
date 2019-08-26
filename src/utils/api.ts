@@ -146,7 +146,12 @@ export async function getAuctionIds(
   const res = await fetchWrapper(getDataUrl(organizer + '_organizer'));
   let auctionIds: string[] = [];
   for (let i = 0; i < res.length; i++) {
-    auctionIds.push(...res[i].value.trim().split(' '));
+    auctionIds.push(
+      ...res[i].value
+        .trim()
+        .split(' ')
+        .filter((val) => val !== '')
+    );
   }
   return auctionIds;
 }
@@ -155,7 +160,12 @@ export async function getBidderAuctionIds(bidder: string): Promise<string[]> {
   const res = await fetchWrapper(getDataUrl(bidder + '_bidder'));
   let auctionIds: string[] = [];
   for (let i = 0; i < res.length; i++) {
-    auctionIds.push(...res[i].value.trim().split(' '));
+    auctionIds.push(
+      ...res[i].value
+        .trim()
+        .split(' ')
+        .filter((val) => val !== '')
+    );
   }
   return auctionIds;
 }

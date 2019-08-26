@@ -1,6 +1,6 @@
 import { Button, InputNumber, Typography } from 'antd';
 import React, { useState, useEffect } from 'react';
-import { IAuctionDetails, bid, toHash } from '../../utils/api';
+import { IAuctionDetails, bid, toHash, withdraw } from '../../utils/api';
 import { withKeeper } from '../../utils/tmpSimpleKeeper';
 import { getImage } from '../../utils/getImage';
 import { IPublicState } from '../../utils/keeper';
@@ -44,6 +44,16 @@ export const AuctionDetails: React.FC<Props> = ({ auction, state }) => {
     }
   };
 
+  const doWithdraw = () => {
+    withKeeper(async (api) => {
+      if (auction) {
+        const lotTx = await withdraw(auction.id, api.signAndPublishTransaction);
+
+        console.info('Created asset: ' + lotTx.id + ' waiting for tx');
+      }
+    });
+  };
+
   if (auction === undefined) return <>Auction not found</>;
 
   return (
@@ -54,21 +64,36 @@ export const AuctionDetails: React.FC<Props> = ({ auction, state }) => {
       <br />
       <br />
 
-      {state!.account!.address === auction.organizer ? (
+      {state!.account!.address === auction.organizer &&
+      auction.phase !== 'BID' ? (
         <>
-          <Button type="primary">SETTLE</Button>
+          {!auction.settle ? (
+            <Button type="primary" onClick={doWithdraw}>
+              {auction.unrevealed_count === 0 && !auction.winner
+                ? 'Refund'
+                : 'Settle'}
+            </Button>
+          ) : (
+            ''
+          )}
         </>
       ) : (
         <>
-          <InputNumber
-            step={0.01}
-            value={bidAmount}
-            min={0}
-            onChange={(value) => value && setBidAmount(value)}
-          />{' '}
-          <Button type="primary" onClick={handleBid}>
-            Bid
-          </Button>
+          {state!.account!.address !== auction.organizer ? (
+            <>
+              <InputNumber
+                step={0.01}
+                value={bidAmount}
+                min={0}
+                onChange={(value) => value && setBidAmount(value)}
+              />{' '}
+              <Button type="primary" onClick={handleBid}>
+                Bid
+              </Button>
+            </>
+          ) : (
+            ''
+          )}
         </>
       )}
     </Section>
