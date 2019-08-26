@@ -37,8 +37,7 @@ export const App = () => {
     if (!state.account) {
       throw new Error('There is no `account` field in `state` object');
     }
-    const organizer = state.account.address;
-    getAuctions(organizer).then((auctions) => {
+    getAuctions().then((auctions) => {
       setAuctions(auctions);
     });
   }, [state]);

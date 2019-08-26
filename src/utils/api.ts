@@ -135,6 +135,15 @@ export async function getAuctionIds(organizer = '.*'): Promise<string[]> {
   return auctionIds;
 }
 
+export async function getBidderAuctionIds(bidder: string): Promise<string[]> {
+  const res = await fetchWrapper(getDataUrl(bidder + '_bidder'));
+  let auctionIds: string[] = [];
+  for (let i = 0; i < res.length; i++) {
+    auctionIds.push(...res[i].value.trim().split(' '));
+  }
+  return auctionIds;
+}
+
 export async function getAuctionDetails(auctionId: string) {
   const res = await fetchWrapper(getDataUrl(auctionId + '_.*'));
   let auctionDetails: IAuctionDetails = {
@@ -148,7 +157,35 @@ export async function getAuctionDetails(auctionId: string) {
   return auctionDetails;
 }
 
-export async function getAuctions(
+export async function getAuctions(): Promise<IAuctionDetails[]> {
+  const auctionIds = await getAuctionIds();
+  const promises = auctionIds.map((id) => getAuctionDetails(id));
+  const auctions = await Promise.all(promises);
+  return auctions;
+}
+
+export async function getAuctionsAsBidder(
+  bidder: string
+): Promise<IAuctionDetails[]> {
+  const auctionIds = await getBidderAuctionIds(bidder);
+  const promises = auctionIds.map((id) => getAuctionDetails(id));
+  const auctions = await Promise.all(promises);
+  return auctions;
+}
+
+export async function getBidsAsBidder(bidder: string): Promise<Bid[]> {
+  return getAuctionsAsBidder(bidder).then((auctions) =>
+    auctions.map((auction) => {
+      return {
+        auctionId: auction.id,
+        hash: auction[auction.id + bidder + '_bid_hash'],
+        deposit: auction.deposit || 0,
+      };
+    })
+  );
+}
+
+export async function getAuctionsAsOrganizer(
   organizer?: string
 ): Promise<IAuctionDetails[]> {
   const auctionIds = await getAuctionIds(organizer);

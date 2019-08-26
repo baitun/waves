@@ -1,8 +1,8 @@
 import { Table, Typography, Button } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
 import React, { useEffect, useState } from 'react';
-import { getBids } from '../../mocks';
-import { Bid } from '../../utils/api';
+import { Bid, getBidsAsBidder } from '../../utils/api';
+import { withKeeper } from '../../utils/tmpSimpleKeeper';
 import { Section } from '../Section/Section';
 
 const columns: ColumnProps<any>[] = [
@@ -26,8 +26,17 @@ export const Bids: React.FC<Props> = () => {
   const [bids, setBids] = useState<Bid[]>([]);
 
   useEffect(() => {
-    const bids = getBids();
-    setBids(bids);
+    withKeeper((api) => {
+      api.publicState().then((ps) => {
+        const address = ps.account && ps.account.address;
+
+        if (address) {
+          getBidsAsBidder(address).then((result) => {
+            setBids(result);
+          });
+        }
+      });
+    });
   }, []);
 
   return (
