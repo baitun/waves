@@ -29,8 +29,8 @@ class CreateAuctionPL extends React.Component<FormComponentProps, State> {
         withKeeper(async (api) => {
           const lotTx = await startAuction(
             {
-              assetId: '',
-              duration: values['select-lot'],
+              assetId: values['select-lot'],
+              duration: values['duration'],
               startPrice: values['input-number-start-price'],
               priceAssetId: 'WAVES',
               deposit: values['input-number-deposit'],
