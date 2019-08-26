@@ -221,6 +221,11 @@ export async function getLots(accountId: string): Promise<Array<NFT>> {
   return generalFetchWrapper(url);
 }
 
+export async function getLot(lotId: string): Promise<NFT> {
+  const url = getUrl(`assets/details/${lotId}`);
+  return generalFetchWrapper(url);
+}
+
 export async function startAuction(
   auction: Auction,
   sign: SignatureCallback

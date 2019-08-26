@@ -1,5 +1,5 @@
 import { Button, InputNumber, Typography } from 'antd';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IAuctionDetails } from '../../utils/api';
 import { getImage } from '../../utils/getImage';
 import { IPublicState } from '../../utils/keeper';
@@ -13,12 +13,22 @@ type Props = {
 export const AuctionDetails: React.FC<Props> = ({ auction, state }) => {
   const [bidAmount, setBidAmount] = useState(0);
 
+  const [image, setImage] = useState<string>('');
+
+  useEffect(() => {
+    if (auction) {
+      getImage(auction).then((img) => {
+        setImage(img);
+      });
+    }
+  }, [auction]);
+
   if (auction === undefined) return <>Auction not found</>;
 
   return (
     <Section>
       <Typography.Title level={1}>{auction.id}</Typography.Title>
-      <img src={getImage(auction)} alt={''} />
+      <img src={image} alt={''} />
       <DetailsTable item={auction} />
       <br />
       <br />

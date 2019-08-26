@@ -1,8 +1,6 @@
 import { Item } from '../types';
+import { getLot } from '../utils/api';
 
-export function getImage(item: Item): string {
-  const n =
-    item.id.split('').reduce((prev, curr) => prev + curr.charCodeAt(0), 0) % 15;
-
-  return `https://placekitten.com/800/400?image=` + n;
+export async function getImage(item: Item): Promise<string> {
+  return getLot(item.lot_assetId || '').then((lot) => lot.description);
 }

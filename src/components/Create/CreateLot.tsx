@@ -19,7 +19,6 @@ class CreateLotPL extends React.Component<FormComponentProps> {
             {
               name: values['input-name'],
               imageUrl: values.upload[0].response.url,
-              // 'https://images-na.ssl-images-amazon.com/images/I/813XSSh%2BUTL._SY679_.jpg',
             },
             api.signAndPublishTransaction
           );
