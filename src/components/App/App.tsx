@@ -1,7 +1,11 @@
 import { notification } from 'antd';
 import { HookRouter, useRedirect, useRoutes } from 'hookrouter';
 import React, { useEffect, useState } from 'react';
-import { getAuctions, IAuctionDetails } from '../../utils/api';
+import {
+  getAuctions,
+  getAuctionsAsOrganizer,
+  IAuctionDetails,
+} from '../../utils/api';
 import { IPublicState } from '../../utils/keeper';
 import { tmpKeeperInit } from '../../utils/tmpSimpleKeeper';
 import { Bids } from '../Bids/Bids';
@@ -17,6 +21,8 @@ export const App = () => {
   useRedirect('/', '/waves/');
   const [state, setState] = useState<IPublicState>();
   const [auctions, setAuctions] = useState<IAuctionDetails[]>();
+  const [myAuctions, setMyAuctions] = useState<IAuctionDetails[]>();
+
   useEffect(() => {
     // @FIXME
     tmpKeeperInit()
@@ -42,9 +48,19 @@ export const App = () => {
     });
   }, [state]);
 
+  useEffect(() => {
+    if (!state) return;
+    if (!state.account) {
+      throw new Error('There is no `account` field in `state` object');
+    }
+    getAuctionsAsOrganizer(state.account.address).then((auctions) => {
+      setMyAuctions(auctions);
+    });
+  }, [state]);
+
   const routes: HookRouter.RouteObject = {
     '/waves/': () => <CardsAuctions auctions={auctions || []} />,
-    '/waves/auctions': () => <CardsAuctions auctions={auctions || []} />,
+    '/waves/auctions': () => <CardsAuctions auctions={myAuctions || []} />,
     '/waves/lots': () => <CardsLots />,
     '/waves/bids': () => <Bids />,
     '/waves/create/lot': () => <CreateLot />,
