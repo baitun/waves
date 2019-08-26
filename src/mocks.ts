@@ -4,6 +4,7 @@ export function getAuctions(adress?: string): IAuctionDetails[] {
   return [
     {
       id: 'TAyRZ8XwQ5HYTkZUrTkMFb4oG43UMkCmB3wT5zdj6nL',
+      phase: 'BID',
       closing_start: 636270,
       deposit: 200000,
       lot_amount: 1,
@@ -19,6 +20,7 @@ export function getAuctions(adress?: string): IAuctionDetails[] {
     },
     {
       id: '2BLQ7ZFsBNk6t32dPXtyYXxmYon815sfa1V82Lk2cSQ7',
+      phase: 'BID',
       closing_start: 636274,
       deposit: 200000,
       lot_amount: 1,
@@ -34,6 +36,7 @@ export function getAuctions(adress?: string): IAuctionDetails[] {
     },
     {
       id: 'dL6PtY2srkaXcoXY5RnZSrDgw7KBqp5iNVnJtwVPBGo',
+      phase: 'BID',
       closing_start: 639813,
       deposit: 200000,
       lot_amount: 1,

@@ -5,6 +5,8 @@ import { sha256, base64Encode, stringToBytes } from '@waves/ts-lib-crypto';
 
 const WAVES = 10 ** 8;
 
+type Phase = 'BID' | 'REVEAL' | 'SETTTLE';
+
 type ResponseItem = {
   type: string;
   value: string;
@@ -14,7 +16,13 @@ type ResponseItem = {
 export type IAuctionDetails = {
   id: string;
 
+  phase: Phase;
+
   lot_amount?: number;
+
+  deltaReveal?: number;
+
+  deltaSettle?: number;
 
   /** base58 адрес устроителя аукциона */
   organizer?: string;
@@ -126,6 +134,10 @@ export function getDataUrl(matches: string): string {
   return getUrl(`addresses/data/${CONTRACT_ADDRESS}?matches=${matches}`);
 }
 
+export async function getCurrentHeight(): Promise<number> {
+  return generalFetchWrapper(getUrl(`blocks/height`)).then((val) => val.height);
+}
+
 export async function getAuctionIds(organizer = '.*'): Promise<string[]> {
   const res = await fetchWrapper(getDataUrl(organizer + '_organizer'));
   let auctionIds: string[] = [];
@@ -146,7 +158,8 @@ export async function getBidderAuctionIds(bidder: string): Promise<string[]> {
 
 export async function getAuctionDetails(auctionId: string) {
   const res = await fetchWrapper(getDataUrl(auctionId + '_.*'));
-  let auctionDetails: IAuctionDetails = {
+  const currentHeight = await getCurrentHeight();
+  let auctionDetails: any = {
     id: res[0].key.split('_')[0],
   };
   for (let i = 0; i < res.length; i++) {
@@ -154,6 +167,21 @@ export async function getAuctionDetails(auctionId: string) {
     const val = res[i].value;
     auctionDetails[key] = val;
   }
+
+  const revealStart = auctionDetails['reveal_start'];
+  const settleStart = auctionDetails['closing_start'];
+
+  auctionDetails['phase'] = 'BID';
+  if (currentHeight >= revealStart && currentHeight < settleStart) {
+    auctionDetails['phase'] = 'REVEAL';
+  }
+  if (currentHeight >= settleStart) {
+    auctionDetails['phase'] = 'SETTLE';
+  }
+
+  auctionDetails['deltaReveal'] = revealStart - currentHeight;
+  auctionDetails['deltaSettle'] = settleStart - currentHeight;
+
   return auctionDetails;
 }
 
