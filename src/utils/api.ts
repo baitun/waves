@@ -290,7 +290,7 @@ export async function startAuction(
   sign: SignatureCallback
 ): Promise<TxResponse> {
   if (auction.startPrice >= auction.deposit) {
-    throw new Error('start price should be >= deposit');
+    throw new Error('start price should NOT be >= deposit');
   }
   const tx = {
     type: 16,

@@ -3,6 +3,7 @@ import { Item } from '../../types';
 import { Table } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
 import { toShortTokenAmount } from '../../utils/api';
+import { blocks2string } from '../../utils/time';
 
 export type DetailsTableProps = {
   item: Item;
@@ -25,7 +26,7 @@ export const DetailsTable: React.FC<DetailsTableProps> = ({ item }) => {
     'Start bid ': toShortTokenAmount(item.startPrice || 0),
     'Time left for bids ': item.deltaReveal
       ? item.deltaReveal > 0
-        ? item.deltaReveal
+        ? blocks2string(item.deltaReveal)
         : 'Bid phase ended ' + -item.deltaReveal + ' blocks ago'
       : '?',
     'Second price': item.second_price
@@ -37,7 +38,7 @@ export const DetailsTable: React.FC<DetailsTableProps> = ({ item }) => {
     'Unrevealed count': item.unrevealed_count,
     'Time left for reveal bids': item.deltaSettle
       ? item.deltaSettle > 0
-        ? item.deltaSettle
+        ? blocks2string(item.deltaSettle)
         : 'Reveal phase ended ' + -item.deltaSettle + ' blocks ago'
       : '?',
     Settle: item.settle
