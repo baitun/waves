@@ -36,7 +36,6 @@ const columns: ColumnProps<BidView>[] = [
         ) : (
           ''
         )}
-        ,
         {record.status === 'SETTLE' ? (
           <Button onClick={doWithdraw(record)}>Withdraw</Button>
         ) : (
@@ -83,24 +82,27 @@ export const Bids: React.FC<Props> = () => {
         if (address) {
           getBidsAsBidder(address).then((result) => {
             setBids(
-              result.map((bid) => {
-                const fullHash = JSON.parse(
-                  localStorage.getItem(bid.auctionId) || '{}'
-                ) as HashedBid;
+              result
+                .map((bid) => {
+                  const fullHash = JSON.parse(
+                    localStorage.getItem(bid.auctionId) || '{}'
+                  ) as HashedBid;
 
-                const alreadyRevealed =
-                  bid[`${bid.auctionId}${address}_revealed`];
+                  const alreadyRevealed = bid[`${address}_revealed`];
+                  const alreadySettled = bid[`${address}_settle]`];
 
-                return {
-                  deposit: toShortTokenAmount(bid.deposit),
-                  myBid: toShortTokenAmount(fullHash.amount),
-                  auctionId: bid.auctionId,
-                  fullHash: fullHash,
-                  startPrice: toShortTokenAmount(bid.startPrice || 0),
-                  status: bid.phase,
-                  alreadyRevealed: alreadyRevealed,
-                };
-              })
+                  return {
+                    deposit: toShortTokenAmount(bid.deposit),
+                    myBid: toShortTokenAmount(fullHash.amount),
+                    auctionId: bid.auctionId,
+                    fullHash: fullHash,
+                    startPrice: toShortTokenAmount(bid.startPrice || 0),
+                    status: bid.phase,
+                    alreadyRevealed: alreadyRevealed,
+                    alreadySettled: alreadySettled,
+                  };
+                })
+                .filter((bid) => !bid.alreadySettled)
             );
           });
         }

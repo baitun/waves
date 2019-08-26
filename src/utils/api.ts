@@ -121,7 +121,7 @@ function generalFetchWrapper(url: string): Promise<any> {
   return fetch(url).then((response) => response.json());
 }
 
-const CONTRACT_ADDRESS = '3Muko2ava9FcKG29BZQW3fcfFAXtfpWL2me';
+const CONTRACT_ADDRESS = '3N76Y14RPeA9uMm7x2K4t3khD82WdeeV9WX';
 
 const BASE_URL = 'https://nodes-testnet.wavesnodes.com';
 
@@ -161,7 +161,11 @@ export async function getBidderAuctionIds(bidder: string): Promise<string[]> {
 }
 
 export async function getAuctionDetails(auctionId: string) {
+  // TODO: Add current user here
   const res = await fetchWrapper(getDataUrl(auctionId + '_.*'));
+  const userRes = await fetchWrapper(
+    getDataUrl(auctionId + '[A-Za-z0-9]{35}_.*')
+  );
   const currentHeight = await getCurrentHeight();
   let auctionDetails: any = {
     id: res[0] && res[0].key.split('_')[0],
@@ -169,6 +173,12 @@ export async function getAuctionDetails(auctionId: string) {
   for (let i = 0; i < res.length; i++) {
     const key = res[i].key.substr(res[i].key.indexOf('_') + 1);
     const val = res[i].value;
+    auctionDetails[key] = val;
+  }
+
+  for (let i = 0; i < userRes.length; i++) {
+    const key = userRes[i].key.replace(auctionId, '').substr(1);
+    const val = userRes[i].value;
     auctionDetails[key] = val;
   }
 
