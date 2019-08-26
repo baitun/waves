@@ -1,9 +1,10 @@
 import { Icon, Typography } from 'antd';
 import { navigate } from 'hookrouter';
-import moment from 'moment';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Item } from '../../types';
+import { WAVES } from '../../utils/api';
 import { getImage } from '../../utils/getImage';
+import { blocks2string } from '../../utils/time';
 import style from './Card.module.css';
 
 export type CardProps = {
@@ -31,10 +32,14 @@ export const Card: React.FC<CardProps> = ({ item }) => {
           <Icon type="user" /> {item.organizer}
         </div>
         <div>
-          <Icon type="clock-circle" /> Ends {moment().to(0)}
+          <Icon type="clock-circle" />
+          {item.deltaReveal && item.deltaReveal > 0
+            ? blocks2string(item.deltaReveal)
+            : 'Ended'}
         </div>
         <div>
-          <Icon type="money-collect" /> {item.startPrice} Waves
+          <Icon type="money-collect" /> {(item.startPrice! / WAVES).toFixed(2)}{' '}
+          WAVES
         </div>
         <div>
           <Icon type="number" /> {item.unrevealed_count} bids

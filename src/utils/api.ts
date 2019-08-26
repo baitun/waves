@@ -3,7 +3,7 @@ import { sha256, base64Encode, stringToBytes } from '@waves/ts-lib-crypto';
 // https://nodes-testnet.wavesnodes.com/addresses/data/3MvoQ3q8wFnquWFPSZuBGunTnE1fphumBxd?matches=3MvxXxJcuELB2UaCHKVQaUszu8u3NmXxoWr_organizer.*
 // https://nodes-testnet.wavesnodes.com/addresses/data/3MvoQ3q8wFnquWFPSZuBGunTnE1fphumBxd?matches=TAyRZ8XwQ5HYTkZUrTkMFb4oG43UMkCmB3wT5zdj6nL_.*
 
-const WAVES = 10 ** 8;
+export const WAVES = 10 ** 8;
 
 type Phase = 'BID' | 'REVEAL' | 'SETTTLE';
 
@@ -20,8 +20,10 @@ export type IAuctionDetails = {
 
   lot_amount?: number;
 
+  /** Time left for bids (in blocks) */
   deltaReveal?: number;
 
+  /** Time left for reveal bids (in blocks) */
   deltaSettle?: number;
 
   /** base58 адрес устроителя аукциона */
