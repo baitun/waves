@@ -27,7 +27,7 @@ class CreateLotPL extends React.Component<FormComponentProps> {
           const lotTx = await createLot(
             {
               name: values['input-name'],
-              imageUrl: values.upload[0].response.url,
+              imageUrl: values.upload[0].response.data.link,
             },
             api.signAndPublishTransaction
           );
@@ -72,9 +72,39 @@ class CreateLotPL extends React.Component<FormComponentProps> {
             })(
               <Upload
                 name="image"
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                action="https://api.imgur.com/3/upload"
                 listType="picture"
                 accept="image/*"
+                headers={{
+                  Authorization: 'Client-ID 1650f750334defb',
+                }}
+                customRequest={(option: any) => {
+                  console.log(option);
+
+                  var formData = new FormData();
+                  formData.append('image', option.file);
+
+                  let xhr = new XMLHttpRequest();
+
+                  xhr.addEventListener('readystatechange', function() {
+                    if (this.readyState === 4) {
+                      let response = JSON.parse(this.response);
+                      console.log(response);
+                      option.onSuccess(response);
+                    }
+                  });
+
+                  xhr.onprogress = option.onProgress;
+                  xhr.onerror = option.onError;
+
+                  xhr.open('POST', 'https://api.imgur.com/3/image');
+                  xhr.setRequestHeader(
+                    'Authorization',
+                    'Client-ID 1650f750334defb'
+                  );
+
+                  xhr.send(formData);
+                }}
               >
                 <Button>
                   <Icon type="upload" /> Click to upload
