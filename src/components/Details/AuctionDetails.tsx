@@ -27,7 +27,6 @@ export const AuctionDetails: React.FC<Props> = ({ auction, state }) => {
   const handleBid = () => {
     const fullHash = toHash(bidAmount);
     if (auction) {
-      localStorage.setItem(auction.id, JSON.stringify(fullHash));
       withKeeper(async (api) => {
         const lotTx = await bid(
           {
@@ -39,6 +38,17 @@ export const AuctionDetails: React.FC<Props> = ({ auction, state }) => {
           api.signAndPublishTransaction
         );
 
+        if (lotTx) {
+          api.publicState().then((ps) => {
+            const address = ps.account && ps.account.address;
+            if (address) {
+              localStorage.setItem(
+                `${address}_${auction.id}`,
+                JSON.stringify(fullHash)
+              );
+            }
+          });
+        }
         console.info('Created asset: ' + lotTx.id + ' waiting for tx');
       });
     }

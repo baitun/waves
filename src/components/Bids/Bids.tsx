@@ -85,7 +85,7 @@ export const Bids: React.FC<Props> = () => {
               result
                 .map((bid) => {
                   const fullHash = JSON.parse(
-                    localStorage.getItem(bid.auctionId) || '{}'
+                    localStorage.getItem(`${address}_${bid.auctionId}`) || '{}'
                   ) as HashedBid;
 
                   const alreadyRevealed = bid[`${address}_revealed`];
