@@ -123,7 +123,7 @@ function generalFetchWrapper(url: string): Promise<any> {
   return fetch(url).then((response) => response.json());
 }
 
-const CONTRACT_ADDRESS = '3MrtCAwzpyGd4gHfZvRRc3n3vJBceDLL7kg';
+const CONTRACT_ADDRESS = '3Mp5kngPzoQNMy98TMqPtZ36m43ijrKbhan';
 
 const BASE_URL = 'https://nodes-testnet.wavesnodes.com';
 
