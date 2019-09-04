@@ -95,7 +95,8 @@ class CreateAuctionPL extends React.Component<FormComponentProps, State> {
           <Form.Item label="Lot" hasFeedback>
             {getFieldDecorator('select-lot', {})(
               <Select>
-                {lots && Array.isArray(lots) &&
+                {lots &&
+                  Array.isArray(lots) &&
                   lots.map((lot) => (
                     <Option value={lot.id} key={lot.id}>
                       {lot.name}
@@ -108,7 +109,7 @@ class CreateAuctionPL extends React.Component<FormComponentProps, State> {
             </Button>
           </Form.Item>
 
-          <Form.Item label="Duration">
+          <Form.Item label="Duration" help="(in blocks, 1 block ≈ 1 minute)">
             {getFieldDecorator('duration', {})(<InputNumber step={1} />)}
           </Form.Item>
 
