@@ -95,7 +95,7 @@ class CreateAuctionPL extends React.Component<FormComponentProps, State> {
           <Form.Item label="Lot" hasFeedback>
             {getFieldDecorator('select-lot', {})(
               <Select>
-                {lots &&
+                {lots && Array.isArray(lots) &&
                   lots.map((lot) => (
                     <Option value={lot.id} key={lot.id}>
                       {lot.name}
