@@ -34,22 +34,26 @@ class CreateAuctionPL extends React.Component<FormComponentProps, State> {
         console.log('Received values of form: ', values);
 
         withKeeper(async (api) => {
-          const lotTx = await startAuction(
-            {
-              assetId: values['select-lot'],
-              duration: values['duration'],
-              startPrice: values['input-number-start-price'],
-              priceAssetId: 'WAVES',
-              deposit: values['input-number-deposit'],
-            },
-            api.signAndPublishTransaction
-          );
+          try {
+            const lotTx = await startAuction(
+              {
+                assetId: values['lot'],
+                duration: values['duration'],
+                startPrice: values['start-price'],
+                priceAssetId: 'WAVES',
+                deposit: values['deposit'],
+              },
+              api.signAndPublishTransaction
+            );
 
-          console.info('Created asset: ' + lotTx.id + ' waiting for tx');
-          notification.success({ message: 'Created asset: ' + lotTx.id });
-          setTimeout(() => {
-            navigate('/waves/auctions');
-          }, 1000);
+            console.info('Created asset: ' + lotTx.id + ' waiting for tx');
+            notification.success({ message: 'Created asset: ' + lotTx.id });
+            setTimeout(() => {
+              navigate('/waves/auctions');
+            }, 1000);
+          } catch (error) {
+            notification.error({ message: error.toString() });
+          }
         });
       }
     });
@@ -93,7 +97,7 @@ class CreateAuctionPL extends React.Component<FormComponentProps, State> {
 
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
           <Form.Item label="Lot" hasFeedback>
-            {getFieldDecorator('select-lot', { rules: [{ required: true }] })(
+            {getFieldDecorator('lot', { rules: [{ required: true }] })(
               <Select>
                 {lots &&
                   Array.isArray(lots) &&
@@ -105,11 +109,13 @@ class CreateAuctionPL extends React.Component<FormComponentProps, State> {
               </Select>
             )}
           </Form.Item>
-          <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
-            <Button onClick={() => navigate('/waves/create/lot')}>
-              Create Lot
-            </Button>
-          </Form.Item>
+          {Array.isArray(lots) && lots.length === 0 && (
+            <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
+              <Button onClick={() => navigate('/waves/create/lot')}>
+                Create Lot
+              </Button>
+            </Form.Item>
+          )}
 
           <Form.Item
             hasFeedback
@@ -122,13 +128,13 @@ class CreateAuctionPL extends React.Component<FormComponentProps, State> {
           </Form.Item>
 
           <Form.Item hasFeedback label="Start price">
-            {getFieldDecorator('input-number-start-price', {
+            {getFieldDecorator('start-price', {
               rules: [{ required: true }],
             })(<InputNumber step={0.01} />)}
           </Form.Item>
 
           <Form.Item hasFeedback label="Deposit">
-            {getFieldDecorator('input-number-deposit', {
+            {getFieldDecorator('deposit', {
               rules: [
                 {
                   required: true,
