@@ -93,7 +93,7 @@ class CreateAuctionPL extends React.Component<FormComponentProps, State> {
 
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
           <Form.Item label="Lot" hasFeedback>
-            {getFieldDecorator('select-lot', {})(
+            {getFieldDecorator('select-lot', { rules: [{ required: true }] })(
               <Select>
                 {lots &&
                   Array.isArray(lots) &&
@@ -104,25 +104,37 @@ class CreateAuctionPL extends React.Component<FormComponentProps, State> {
                   ))}
               </Select>
             )}
+          </Form.Item>
+          <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
             <Button onClick={() => navigate('/waves/create/lot')}>
               Create Lot
             </Button>
           </Form.Item>
 
-          <Form.Item label="Duration" help="(in blocks, 1 block ≈ 1 minute)">
-            {getFieldDecorator('duration', {})(<InputNumber step={1} />)}
+          <Form.Item
+            hasFeedback
+            label="Duration"
+            extra="(in blocks, 1 block ≈ 1 minute)"
+          >
+            {getFieldDecorator('duration', {
+              rules: [{ type: 'number', required: true, min: 1 }],
+            })(<InputNumber step={1} />)}
           </Form.Item>
 
-          <Form.Item label="Start price">
-            {getFieldDecorator('input-number-start-price', {})(
-              <InputNumber step={0.01} />
-            )}
+          <Form.Item hasFeedback label="Start price">
+            {getFieldDecorator('input-number-start-price', {
+              rules: [{ required: true }],
+            })(<InputNumber step={0.01} />)}
           </Form.Item>
 
-          <Form.Item label="Deposit">
-            {getFieldDecorator('input-number-deposit', {})(
-              <InputNumber step={0.01} />
-            )}
+          <Form.Item hasFeedback label="Deposit">
+            {getFieldDecorator('input-number-deposit', {
+              rules: [
+                {
+                  required: true,
+                },
+              ],
+            })(<InputNumber step={0.01} />)}
           </Form.Item>
 
           <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
@@ -136,4 +148,4 @@ class CreateAuctionPL extends React.Component<FormComponentProps, State> {
   }
 }
 
-export default Form.create({ name: 'validate_other' })(CreateAuctionPL);
+export default Form.create()(CreateAuctionPL);
